@@ -9,6 +9,9 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import retrofit.RestAdapter;
+
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
 
 
@@ -21,6 +24,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
     }
 
     @Override
