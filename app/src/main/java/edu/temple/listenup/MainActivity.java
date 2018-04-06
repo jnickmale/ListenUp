@@ -11,7 +11,8 @@ import com.spotify.sdk.android.player.SpotifyPlayer;
 
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
 
-    //private  static final String REDIRECT_URI = "yourcustomprotocol://";
+
+    private  static final String Client_ID = "35c44a4ac64340ee951b71b2308ca072";
 
     // TODO: Replace with your redirect URI
     //private static final String REDIRECT_URI = "yourcustomprotocol://callback";
