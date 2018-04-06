@@ -25,7 +25,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        System.out.println("jello");
     }
 
     @Override
