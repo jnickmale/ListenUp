@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-auth:11.0.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -38,10 +39,13 @@ dependencies {
 
     //implementation  'com.spotify.android:auth:1.0.0-alpha'
     // This library handles music playback
- //   compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    //   compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 
     implementation 'com.android.support:customtabs:26.1.0'
     implementation 'com.android.support:support-annotations:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
+
+
+apply plugin: 'com.google.gms.google-services'
