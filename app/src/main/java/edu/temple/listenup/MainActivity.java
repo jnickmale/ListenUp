@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
     private static final int REQUEST_CODE = 1337;
 
-    private  static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";
+    private  static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";//you recevie the client id from the developer dashbored
 
     private Player mPlayer;
     // TODO: Replace with your redirect URI
@@ -56,11 +56,11 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
+        builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basicaly mean what we need from the object....)
         AuthenticationRequest request = builder.build();
 
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);// this call the login activity in the spotfiy app
 
 
 
@@ -86,8 +86,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
             }
         });
+        7
 */
-        mPlayer.playUri(null, "spotify:track:2TpxZ7JUBn3uw46aR7qd6V", 0, 0);
+        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
     }
 
     @Override
@@ -126,12 +127,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check if result comes from the correct activity
-        // The next 19 lines of the code are what you need to copy & paste! :)
-        if (requestCode == REQUEST_CODE) {
+      if (requestCode == REQUEST_CODE)
+        {
+            //get the data from then intent
              response = AuthenticationClient.getResponse(resultCode, data);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
-                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
+                Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {//method to initialize the player
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
@@ -149,6 +151,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
         }
     }//end onActivityResult
+
     @Override
     protected void onDestroy() {
         Spotify.destroyPlayer(this);
