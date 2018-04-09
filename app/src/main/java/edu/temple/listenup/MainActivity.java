@@ -48,18 +48,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     //test playbar
 
-
- /*   @Override
+    @Override
     protected void onStart() {
         super.onStart();
-        try {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-        }catch ( NullPointerException e)
-        {
 
-        }
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +66,11 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);// this call the login activity in the spotfiy app
-/*        String userid =response.getAccessToken();
+
+        mAuth = FirebaseAuth.getInstance();
+
+
+        /*        String userid =response.getAccessToken();
         FileInputStream serviceAccount =
                 //C:\Users\kingJ\Desktop
                 null;
@@ -95,8 +94,11 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged In");
+
         // This is the line that plays a song.
-       /* mAuth = FirebaseAuth.getInstance();
+
+       /*
+       mAuth = FirebaseAuth.getInstance();
 
         mAuth.signInWithCustomToken(response.getAccessToken().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -112,8 +114,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
             }
         });
-        7
-*/
+    */
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
