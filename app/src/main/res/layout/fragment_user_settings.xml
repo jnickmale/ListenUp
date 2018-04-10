@@ -12,6 +12,7 @@
         android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
+        android:background="#b917cb"
         >
 
         <!--<ImageView android:src="@drawable/logo"
@@ -21,68 +22,67 @@
             android:layout_gravity="center_horizontal" /> -->
 
         <!--  Name Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+
             <EditText android:id="@+id/input_name"
-                android:backgroundTint="#b917cb"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
+                android:textColorHint="@android:color/white"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/white"
                 android:hint="name" />
-        </android.support.design.widget.TextInputLayout>
 
         <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
+        <EditText android:id="@+id/input_age"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
+            android:textColorHint="@android:color/white"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_age"
-                android:backgroundTint="#b917cb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="age" />
-        </android.support.design.widget.TextInputLayout>
+            android:inputType="textCapWords"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:hint="age" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
+        <EditText android:id="@+id/input_radius"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_radius"
-                android:backgroundTint="#b917cb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="set radius" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:textColorHint="@android:color/white"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:hint="set radius" />
 
 
         <EditText
             android:id="@+id/input_aboutUser"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:backgroundTint="#b917cb"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
             android:ems="10"
             android:inputType="textMultiLine"
             android:gravity="top"
+            android:textColorHint="@android:color/white"
             android:hint="a little about you..."/>
 
         <!-- Signup Button -->
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_signup"
+        <Button
+            android:id="@+id/btn_settingsDone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:background="#b917cb"
+            android:background="#862291"
             android:textColor="@android:color/white"
-            android:text="Done!"/>
+            android:text="Done!"
+            android:shadowColor="black"
+            android:shadowRadius="1dp"/>
 
         <!-- radius -->
     </LinearLayout>
