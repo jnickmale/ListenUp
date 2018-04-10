@@ -55,6 +55,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         try {
             FirebaseUser currentUser = mAuth.getCurrentUser();
         }catch ( NullPointerException e)
+        nn
         {
 
         }
