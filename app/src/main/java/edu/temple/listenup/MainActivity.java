@@ -179,8 +179,10 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     private void writeNewUser(String userID) {
         Log.i("MainActivity", "User added: " + userID);
-        myDatabase.child("users").child("userID").setValue(userID);
-
+       myDatabase.child("users").child("userID").setValue(userID);
+//DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//ref.child("users").push();
+//ref.child("users").child("userID").setValue("test");
     }
 
 }
