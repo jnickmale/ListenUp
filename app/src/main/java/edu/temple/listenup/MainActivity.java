@@ -179,7 +179,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     private void writeNewUser(String userID) {
         Log.i("MainActivity", "User added: " + userID);
-        myDatabase.child("users").child("userID").push().setValue(userID);
+        myDatabase.child("users").child("userID").setValue(userID);
 
     }
 
