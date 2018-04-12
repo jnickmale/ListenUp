@@ -2,28 +2,41 @@ package edu.temple.listenup.Fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import edu.temple.listenup.R;
 /**
  * A simple {@link Fragment} subclass.
  */
 public class UserSettingsFragment extends Fragment {
+    EditText userAge;
+    EditText radius;
+    //if we want a seekbar instead
+    //SeekBar radius;
 
 
     public UserSettingsFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_user_settings, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_settings, container, false);
+        userAge = view.findViewById(R.id.input_age);
+        int age = Integer.valueOf(userAge.toString());
+        radius =  view.findViewById(R.id.input_radius);
+        int userRadius = Integer.valueOf(radius.toString());
+
+        return view;
     }
 
 }
