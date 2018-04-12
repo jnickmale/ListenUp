@@ -101,7 +101,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     public void onLoggedIn() {
         //attaching the user settings fragment after user logs in
         //todo: figure out logic flow of login sequence
-        fragmentTransaction.add(R.id.attachTo,userSettingsFragment).commit();
+
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
@@ -179,7 +179,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     private void writeNewUser(String userID) {
         Log.i("MainActivity", "User added: " + userID);
-        myDatabase.child("users").child("userID").setValue(userID);
+        myDatabase.child("users").child("userID").push().setValue(userID);
 
     }
 

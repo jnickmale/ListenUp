@@ -17,6 +17,8 @@ import edu.temple.listenup.R;
 public class UserSettingsFragment extends Fragment {
     EditText userAge;
     EditText radius;
+    int userRadius;
+    int age;
     //if we want a seekbar instead
     //SeekBar radius;
 
@@ -32,10 +34,14 @@ public class UserSettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_settings, container, false);
         // Inflate the layout for this fragment
         userAge = view.findViewById(R.id.input_age);
-        int age = Integer.valueOf(userAge.toString());
-        radius =  view.findViewById(R.id.input_radius);
-        int userRadius = Integer.valueOf(radius.toString());
+       if (userAge.getText().toString() !="") {
+           age = Integer.valueOf(userAge.getText().toString());
+       }
 
+       radius =  view.findViewById(R.id.input_radius);
+        if (radius.getText().toString() !="") {
+            userRadius = Integer.valueOf(radius.getText().toString());
+        }
         return view;
     }
 
