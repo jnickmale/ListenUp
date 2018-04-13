@@ -41,12 +41,12 @@ public class HomeScreen extends AppCompatActivity {
                     return true;
                 //partner list
                 case R.id.navigation_dashboard:
-                    fragmentTransaction.add(R.id.attachTo,partnerList).commit();
+                    fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 //partner chat list
                 case R.id.navigation_notifications:
-                    fragmentTransaction.add(R.id.attachTo,chatList).commit();
+                    fragmentTransaction.replace(R.id.attachTo,chatList).commit();
                     mTextMessage.setText(R.string.title_notifications);
                     return true;
             }

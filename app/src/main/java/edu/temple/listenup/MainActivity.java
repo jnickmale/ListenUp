@@ -1,5 +1,5 @@
 package edu.temple.listenup;
-
+//Gmo branch
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -100,8 +100,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     @Override
     public void onLoggedIn() {
         //attaching the user settings fragment after user logs in
-        //todo: figure out logic flow of login sequence
-
+        Intent intent = new Intent(this,HomeScreen.class);
+        //todo: place value need in bundle to send to HomeScreen
+        startActivity(intent);
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
@@ -121,7 +122,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onTemporaryError() {
-
         Log.d("MainActivity", "temporary");
     }
 
@@ -162,6 +162,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
                     @Override
                     public void onError(Throwable throwable) {
+                        System.out.println("yeeeeeeeees");
                         Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
