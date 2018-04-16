@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
@@ -35,9 +37,13 @@ public class HomeScreen extends AppCompatActivity {
                 //left
                 case R.id.navigation_home:
                         fragmentTransaction.replace(R.id.attachTo,userSettingsFragment).commit();
+                    Toast toast = Toast.makeText(getApplicationContext(),"please fill out your profile!",Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    
+
                     return true;
                 //partner list
-                //midle
+                //middle
                 case R.id.navigation_dashboard:
                     //check if frag already attached
                     fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
