@@ -34,13 +34,13 @@ public class HomeScreen extends AppCompatActivity {
                 //settings
                 //left
                 case R.id.navigation_home:
-                    fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
+                        fragmentTransaction.replace(R.id.attachTo,userSettingsFragment).commit();
                     return true;
                 //partner list
                 //midle
                 case R.id.navigation_dashboard:
                     //check if frag already attached
-                    fragmentTransaction.add(R.id.attachTo,userSettingsFragment).commit();
+                    fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
                     return true;
                 //partner chat list
                 //right
