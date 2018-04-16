@@ -39,9 +39,6 @@ import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
 
-    Fragment userSettingsFragment = new UserSettingsFragment();
-    FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     private FirebaseAuth mAuth;
     // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
     private static final int REQUEST_CODE = 1337;
@@ -101,7 +98,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     public void onLoggedIn() {
         //attaching the user settings fragment after user logs in
         Intent intent = new Intent(this,HomeScreen.class);
-        //todo: place value need in bundle to send to HomeScreen
+        //todo: place values needed in bundle to send to HomeScreen
+        Log.d("sout checks","intent reached");
         startActivity(intent);
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
