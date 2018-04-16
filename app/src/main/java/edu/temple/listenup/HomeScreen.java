@@ -10,44 +10,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import edu.temple.listenup.Fragments.ChatList;
-import edu.temple.listenup.Fragments.PartnerList;
+import edu.temple.listenup.Fragments.MatchesFragment;
+import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class HomeScreen extends AppCompatActivity {
 
     //the three fragments the user will navigate through
     Fragment userSettingsFragment = new UserSettingsFragment();
-    Fragment chatList = new ChatList();
-    Fragment partnerList = new PartnerList();
+    Fragment chatList = new MatchesFragment();
+    Fragment partnerList = new PartnerListFragment();
 
     FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-    private TextView mTextMessage;
-
-    //todo: replace all fragments before adding
     //cycle through the fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 //settings
+                //left
                 case R.id.navigation_home:
-                    fragmentTransaction.add(R.id.attachTo,userSettingsFragment).commit();
-                    mTextMessage.setText(R.string.title_home);
+                        fragmentTransaction.replace(R.id.attachTo,userSettingsFragment).commit();
                     return true;
                 //partner list
+                //midle
                 case R.id.navigation_dashboard:
-                    fragmentTransaction.add(R.id.attachTo,partnerList).commit();
-                    mTextMessage.setText(R.string.title_dashboard);
+                    //check if frag already attached
+                    fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
                     return true;
                 //partner chat list
+                //right
                 case R.id.navigation_notifications:
-                    fragmentTransaction.add(R.id.attachTo,chatList).commit();
-                    mTextMessage.setText(R.string.title_notifications);
+                    fragmentTransaction.replace(R.id.attachTo,chatList).commit();
                     return true;
             }
             return false;
@@ -58,8 +56,6 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

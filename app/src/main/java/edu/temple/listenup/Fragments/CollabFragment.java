@@ -2,7 +2,7 @@ package edu.temple.listenup.Fragments;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +12,10 @@ import edu.temple.listenup.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PartnerList extends Fragment {
+public class CollabFragment extends Fragment {
 
 
-    public PartnerList() {
+    public CollabFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class PartnerList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_partner_list, container, false);
+        return inflater.inflate(R.layout.fragment_collab, container, false);
     }
 
 }

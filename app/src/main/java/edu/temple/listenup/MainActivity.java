@@ -1,5 +1,5 @@
 package edu.temple.listenup;
-
+//Gmo branch
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -39,9 +39,6 @@ import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
 
-    Fragment userSettingsFragment = new UserSettingsFragment();
-    FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     private FirebaseAuth mAuth;
     // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
     private static final int REQUEST_CODE = 1337;
@@ -65,6 +62,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -99,8 +97,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onLoggedIn() {
-        //attaching the user settings fragment after user logs in
-        //todo: figure out logic flow of login sequence
+        Intent intent = new Intent(this,HomeScreen.class);
+        startActivity(intent);
 
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
@@ -121,7 +119,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onTemporaryError() {
-
         Log.d("MainActivity", "temporary");
     }
 
