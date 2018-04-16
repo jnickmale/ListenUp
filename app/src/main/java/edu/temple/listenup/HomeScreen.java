@@ -22,31 +22,30 @@ public class HomeScreen extends AppCompatActivity {
     Fragment partnerList = new PartnerListFragment();
 
     FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-    private TextView mTextMessage;
-    
     //cycle through the fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 //settings
+                //left
                 case R.id.navigation_home:
                     fragmentTransaction.replace(R.id.attachTo,partnerList).commit();
-                    mTextMessage.setText(R.string.title_home);
                     return true;
                 //partner list
+                //midle
                 case R.id.navigation_dashboard:
+                    //check if frag already attached
                     fragmentTransaction.add(R.id.attachTo,userSettingsFragment).commit();
-                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 //partner chat list
+                //right
                 case R.id.navigation_notifications:
                     fragmentTransaction.replace(R.id.attachTo,chatList).commit();
-                    mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
             return false;
@@ -57,8 +56,6 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

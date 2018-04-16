@@ -62,6 +62,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -96,11 +97,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onLoggedIn() {
-        //attaching the user settings fragment after user logs in
         Intent intent = new Intent(this,HomeScreen.class);
-        //todo: place values needed in bundle to send to HomeScreen
-        Log.d("sout checks","intent reached");
         startActivity(intent);
+
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
@@ -160,7 +159,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
                     @Override
                     public void onError(Throwable throwable) {
-                        System.out.println("yeeeeeeeees");
                         Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
                     }
                 });
