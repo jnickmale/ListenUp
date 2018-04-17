@@ -32,11 +32,14 @@ public class Profile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        //onclick floating action button to spawn custom toast
         FloatingActionButton fab = view.findViewById(R.id.profileFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //custom toast
                 final Toasty toasty = new Toasty(getActivity());
+                //display
                 toasty.show();
                 Button button= toasty.findViewById(R.id.btn_signup);
                 button.setOnClickListener(new View.OnClickListener() {

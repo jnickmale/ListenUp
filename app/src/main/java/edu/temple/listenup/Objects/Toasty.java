@@ -11,11 +11,10 @@ import edu.temple.listenup.R;
  * Created by guillermo on 4/17/18.
  */
 
+//Toasty is a custom toast object that extends Dialog
+
 public class Toasty extends Dialog {
     Activity activity;
-    Dialog dialog;
-    Button add;
-    Button cancel;
 
     public Toasty(Activity activity){
         super(activity);
