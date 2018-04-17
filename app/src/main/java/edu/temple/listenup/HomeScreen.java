@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
+import edu.temple.listenup.Fragments.Profile;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class HomeScreen extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class HomeScreen extends AppCompatActivity {
     Fragment userSettingsFragment = new UserSettingsFragment();
     Fragment chatList = new MatchesFragment();
     Fragment partnerList = new PartnerListFragment();
+    Fragment profile = new Profile();
 
     FragmentManager fragmentManager = getFragmentManager();
 
@@ -36,11 +38,7 @@ public class HomeScreen extends AppCompatActivity {
                 //settings
                 //left
                 case R.id.navigation_home:
-                        fragmentTransaction.replace(R.id.attachTo,userSettingsFragment).commit();
-                    Toast toast = Toast.makeText(getApplicationContext(),"please fill out your profile!",Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    
-
+                        fragmentTransaction.replace(R.id.attachTo,profile).commit();
                     return true;
                 //partner list
                 //middle
