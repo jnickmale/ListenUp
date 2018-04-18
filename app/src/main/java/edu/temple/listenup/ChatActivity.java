@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -19,7 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChatActivity extends Activity {
+import edu.temple.listenup.Fragments.ChatFragment;
+
+public class ChatActivity extends AppCompatActivity {
     private String thisUser;
     private String chattingWith;
     private String chatID;
@@ -45,6 +49,8 @@ public class ChatActivity extends Activity {
 
         setChatDatabaseListener();
 
+        Fragment chatFragment = ChatFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
     }
 
     public void setChatDatabaseListener(){
@@ -115,6 +121,7 @@ public class ChatActivity extends Activity {
         messages.add(theNewMessage);
     }
 
+
     private class Message{
         private String ID, content, fromUsername, toUsername;
         private Date dateSent, dateReceived;
@@ -136,6 +143,54 @@ public class ChatActivity extends Activity {
 
             fromUsername = fromUser;
             toUsername = toUser;
+        }
+
+        public String getID() {
+            return ID;
+        }
+
+        public void setID(String ID) {
+            this.ID = ID;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getFromUsername() {
+            return fromUsername;
+        }
+
+        public void setFromUsername(String fromUsername) {
+            this.fromUsername = fromUsername;
+        }
+
+        public String getToUsername() {
+            return toUsername;
+        }
+
+        public void setToUsername(String toUsername) {
+            this.toUsername = toUsername;
+        }
+
+        public Date getDateSent() {
+            return dateSent;
+        }
+
+        public void setDateSent(Date dateSent) {
+            this.dateSent = dateSent;
+        }
+
+        public Date getDateReceived() {
+            return dateReceived;
+        }
+
+        public void setDateReceived(Date dateReceived) {
+            this.dateReceived = dateReceived;
         }
     }
 

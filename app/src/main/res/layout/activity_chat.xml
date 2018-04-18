@@ -6,8 +6,11 @@
     android:layout_height="match_parent"
     tools:context="edu.temple.listenup.ChatActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/messagesView"
+
+    <FrameLayout
+        android:id="@+id/chatFragHolder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
