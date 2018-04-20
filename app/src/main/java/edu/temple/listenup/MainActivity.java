@@ -1,5 +1,6 @@
 package edu.temple.listenup;
 //Gmo branch
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -35,6 +36,8 @@ import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
 import edu.temple.listenup.Fragments.UserSettingsFragment;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
 
 
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
@@ -42,10 +45,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     private FirebaseAuth mAuth;
     // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
     private static final int REQUEST_CODE = 1337;
-    private  static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";//you recevie the client id from the developer dashbored
+    private static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";//you recevie the client id from the developer dashbored
     private Player mPlayer;
     private String myAccessToken;
     private DatabaseReference myDatabase;
+
+    private SpotifyApi api;
+    private SpotifyService service;
 
     // TODO: Replace with your redirect URI
     private static final String REDIRECT_URI = "listenup://callback";// test URI so spotify knows what app to send the info back to
@@ -65,6 +71,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        api = new SpotifyApi();
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -97,12 +105,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onLoggedIn() {
-        Intent intent = new Intent(this,HomeScreen.class);
+        Intent intent = new Intent(this, HomeScreen.class);
         startActivity(intent);
 
         Log.d("MainActivity", "User logged In");
         mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
+        service = api.getService();
     }
 
     @Override
@@ -141,12 +150,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check if result comes from the correct activity
-      if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE) {
             //get the data from then intent
-             response = AuthenticationClient.getResponse(resultCode, data);
+            response = AuthenticationClient.getResponse(resultCode, data);
+
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 myAccessToken = response.getAccessToken();
-                Log.wtf("accessToken",myAccessToken);
+                Log.wtf("accessToken", myAccessToken);
                 writeNewUser(myAccessToken);
                 Config playerConfig = new Config(this, myAccessToken, CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {//method to initialize the player
@@ -164,7 +174,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                 });
             }
 
-
         }
     }//end onActivityResult
 
@@ -176,7 +185,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     private void writeNewUser(String userID) {
         Log.i("MainActivity", "User added: " + userID);
-       myDatabase.child("users").child("userID").setValue(userID);
+        myDatabase.child("users").child("userID").setValue(userID);
 //DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 //ref.child("users").push();
 //ref.child("users").child("userID").setValue("test");
