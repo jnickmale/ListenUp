@@ -1,47 +1,56 @@
 package edu.temple.listenup;
 
+import kaaes.spotify.webapi.android.models.UserPrivate;
+
 /**
  * Created by kingJ on 4/11/2018.
  */
 
 public class User {
-    private String spotify_access_Token, username,sex,email;
 
-
+    private String id, displayName,sex,email;
 
     private double lon,lat, distance;
 
+    public User(UserPrivate user) {
+        id = user.id;
+        displayName = user.display_name;
+        email = user.email;
+    }
 
-    public User(String spotify_access_Token, String username, String sex, String email, double lon, double lat, double distance) {
-        this.spotify_access_Token = spotify_access_Token;
-        this.username = username;
+    public User(String id, String displayName, String sex, String email, double lon, double lat, double distance) {
+        this.id = id;
+        this.displayName = displayName;
         this.sex = sex;
         this.email = email;
         this.lon = lon;
         this.lat = lat;
         this.distance = distance;
     }
+    public User() {
 
-    public User(String spotify_access_Token, String username, String sex, String email) {
-        this.spotify_access_Token = spotify_access_Token;
-        this.username = username;
+    }
+    public User(String id, String displayName, String sex, String email) {
+        this.id = id;
+        this.displayName = displayName;
         this.sex = sex;
         this.email = email;
     }
-    public String getSpotify_access_Token() {
-        return spotify_access_Token;
+
+    public String getID() {
+        return id;
     }
 
-    public void setSpotify_access_Token(String spotify_access_Token) {
-        this.spotify_access_Token = spotify_access_Token;
+    public void setID(String id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getSex() {

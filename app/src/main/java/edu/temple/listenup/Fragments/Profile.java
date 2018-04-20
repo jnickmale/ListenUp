@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import edu.temple.listenup.Objects.Toasty;
 import edu.temple.listenup.R;
@@ -31,6 +32,11 @@ public class Profile extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        TextView display = view.findViewById(R.id.UserDisplayName);
+        display.setText(getArguments().getString("display_name"));
+        //display.setText();
+
 
         //onclick floating action button to spawn custom toast
         FloatingActionButton fab = view.findViewById(R.id.profileFab);
