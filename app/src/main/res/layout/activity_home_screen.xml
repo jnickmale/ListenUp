@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.temple.listenup.HomeScreen">
+    tools:context="edu.temple.listenup.HomeScreenActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,11 +22,10 @@
             app:layout_constraintTop_toTopOf="parent">
         </FrameLayout>
         <android.support.design.widget.BottomNavigationView
-            android:layout_weight=".1"
             android:layout_gravity="bottom"
             android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="56dp"
             android:background="?android:attr/windowBackground"
             app:itemIconTint="#b917cb"
             app:layout_constraintBottom_toBottomOf="parent"

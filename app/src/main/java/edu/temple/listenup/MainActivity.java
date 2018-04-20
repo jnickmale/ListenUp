@@ -1,28 +1,17 @@
 package edu.temple.listenup;
 //Gmo branch
+
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -33,8 +22,9 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
-
-import edu.temple.listenup.Fragments.UserSettingsFragment;
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.UserPrivate;
 
 
 public class MainActivity extends Activity implements SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
@@ -42,10 +32,14 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     private FirebaseAuth mAuth;
     // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
     private static final int REQUEST_CODE = 1337;
-    private  static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";//you recevie the client id from the developer dashbored
+    private static final String CLIENT_ID = "35c44a4ac64340ee951b71b2308ca072";//you receive the client id from the developer dashbored
     private Player mPlayer;
     private String myAccessToken;
     private DatabaseReference myDatabase;
+
+    private SpotifyApi api;
+    private SpotifyService service;
+    private SharedPreferences sharedPref;
 
     // TODO: Replace with your redirect URI
     private static final String REDIRECT_URI = "listenup://callback";// test URI so spotify knows what app to send the info back to
@@ -66,9 +60,12 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        api = new SpotifyApi();
+
         myDatabase = FirebaseDatabase.getInstance().getReference();
+        sharedPref = getSharedPreferences(Constants.PREFERENCES, 0);
 
-
+/*
         myDatabase.child("users").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -86,6 +83,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                         //handle databaseError
                     }
                 });
+*/
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
         builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basicaly mean what we need from the object....)
@@ -97,7 +95,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     @Override
     public void onLoggedIn() {
-        Intent intent = new Intent(this,HomeScreen.class);
+        Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
 
         Log.d("MainActivity", "User logged In");
@@ -141,13 +139,29 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check if result comes from the correct activity
-      if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE) {
             //get the data from then intent
-             response = AuthenticationClient.getResponse(resultCode, data);
+            response = AuthenticationClient.getResponse(resultCode, data);
+
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                //get authentication token and set to myAccessToken variable
                 myAccessToken = response.getAccessToken();
-                Log.wtf("accessToken",myAccessToken);
-                writeNewUser(myAccessToken);
+                Log.wtf("accessToken", myAccessToken);
+                api.setAccessToken(myAccessToken);
+
+                //get service from SpotifyAPI
+                service = api.getService();
+
+                //You need to use an AsyncTask for network operations. Getting user from SpotifyAPI is a network process
+                //Write SpotifyUser into our User object
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserPrivate user = service.getMe();
+                        writeNewUser(user);
+                    }
+                });
+
                 Config playerConfig = new Config(this, myAccessToken, CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {//method to initialize the player
                     @Override
@@ -164,7 +178,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                 });
             }
 
-
         }
     }//end onActivityResult
 
@@ -174,12 +187,28 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onDestroy();
     }
 
-    private void writeNewUser(String userID) {
-        Log.i("MainActivity", "User added: " + userID);
-       myDatabase.child("users").child("userID").setValue(userID);
-//DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//ref.child("users").push();
-//ref.child("users").child("userID").setValue("test");
+    private void writeNewUser(UserPrivate user) {
+        Log.i("MainActivity", "User added: " + user.display_name);
+        Log.i("MainActivity", "User info: " + user.id);
+        Log.i("MainActivity", "User info: " + user.email);
+
+        String getUserID = sharedPref.getString(Constants.USER_ID, null);
+
+        if (getUserID == null) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(Constants.USER_ID, user.id);
+            editor.putString(Constants.DISPLAY_NAME, user.display_name);
+            editor.apply();
+        }
+
+        User newUser = new User();
+
+        newUser.setID(user.id);
+        newUser.setDisplayName(user.display_name);
+         newUser.setEmail(user.email);
+
+        myDatabase.child("users").child(newUser.getID()).setValue(newUser);
+
     }
 
 }

@@ -124,12 +124,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 
  <p>If Spotify is installed on the device, SDK will connect to the Spotify client and
  try to fetch the authorization code/access token for current user.
- Since the user is already logged into Spotify they don't need to fill their username and password.
+ Since the user is already logged into Spotify they don't need to fill their displayName and password.
  If the SDK application requests scopes that have not been approved, the user will see
  a list of scopes and can choose to approve or reject them.</p>
 
  <p>If Spotify is not installed on the device, SDK will open a dialog and load Spotify Accounts Service
- into a WebView. User will have to enter their username and password to login to Spotify.
+ into a WebView. User will have to enter their displayName and password to login to Spotify.
  They will also need to approve any scopes the the SDK application requests and that they
  haven't approved before.</p>
 
