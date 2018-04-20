@@ -19,6 +19,12 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static ChatFragment newInstance() {
+        ChatFragment fragment = new ChatFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
