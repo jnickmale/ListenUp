@@ -14,7 +14,6 @@ import edu.temple.listenup.R;
  */
 public class PartnerListFragment extends Fragment {
 
-
     public PartnerListFragment() {
         // Required empty public constructor
     }
