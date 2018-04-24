@@ -2,9 +2,7 @@ package edu.temple.listenup;
 //Gmo branch
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,8 +20,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
+
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
 
@@ -36,10 +33,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     private Player mPlayer;
     private String myAccessToken;
     private DatabaseReference myDatabase;
-
-    private SpotifyApi api;
-    private SpotifyService service;
-    private SharedPreferences sharedPref;
 
     // TODO: Replace with your redirect URI
     private static final String REDIRECT_URI = "listenup://callback";// test URI so spotify knows what app to send the info back to
@@ -60,11 +53,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        api = new SpotifyApi();
-
         myDatabase = FirebaseDatabase.getInstance().getReference();
-        sharedPref = getSharedPreferences(Constants.PREFERENCES, 0);
-
 /*
         myDatabase.child("users").addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -86,7 +75,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 */
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
-        builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basicaly mean what we need from the object....)
+        builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basically mean what we need from the object....)
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);// this call the login activity in the spotfiy app
@@ -99,7 +88,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         startActivity(intent);
 
         Log.d("MainActivity", "User logged In");
-        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
+        //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
 
@@ -147,17 +136,19 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                 //get authentication token and set to myAccessToken variable
                 myAccessToken = response.getAccessToken();
                 Log.wtf("accessToken", myAccessToken);
-                api.setAccessToken(myAccessToken);
 
-                //get service from SpotifyAPI
-                service = api.getService();
+                //sets access token in Shared Preferences if not saved already
+                PreferencesUtils.setMyAccessToken(myAccessToken, getApplicationContext());
+
+                //sets access token in the Spotify API, you need this to get the service, which in turn, allows you to make calls to the API
+                SpotifyAPIManager.setMyAccessToken(myAccessToken);
 
                 //You need to use an AsyncTask for network operations. Getting user from SpotifyAPI is a network process
                 //Write SpotifyUser into our User object
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
-                        UserPrivate user = service.getMe();
+                        UserPrivate user = SpotifyAPIManager.getService().getMe();
                         writeNewUser(user);
                     }
                 });
@@ -179,7 +170,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
             }
 
         }
-    }//end onActivityResult
+    } // end onActivityResult
 
     @Override
     protected void onDestroy() {
@@ -191,24 +182,19 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
+        Log.i("MainActivity", "Image info: " + user.images.get(0).url + "");
 
-        String getUserID = sharedPref.getString(Constants.USER_ID, null);
-
-        if (getUserID == null) {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(Constants.USER_ID, user.id);
-            editor.putString(Constants.DISPLAY_NAME, user.display_name);
-            editor.apply();
-        }
+        PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
+        PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
+        PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
 
         User newUser = new User();
 
         newUser.setID(user.id);
         newUser.setDisplayName(user.display_name);
-         newUser.setEmail(user.email);
+        newUser.setEmail(user.email);
 
         myDatabase.child("users").child(newUser.getID()).setValue(newUser);
-
     }
 
 }

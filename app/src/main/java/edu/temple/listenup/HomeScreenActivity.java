@@ -1,5 +1,6 @@
 package edu.temple.listenup;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,20 +13,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
-import edu.temple.listenup.Fragments.Profile;
+import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    private String username;
+    private String username, profileInfo;
+    List picInfo;
 
     //the three fragments the user will navigate through
     Fragment userSettingsFragment = new UserSettingsFragment();
     Fragment chatList = new MatchesFragment();
     Fragment partnerList = new PartnerListFragment();
-    Fragment profile = new Profile();
+    Fragment profile = new ProfileFragment();
     Bundle bundle;
     FragmentManager fragmentManager = getFragmentManager();
 
@@ -67,21 +71,23 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        SharedPreferences getInfo = getSharedPreferences(Constants.PREFERENCES, 0);
-        username = getInfo.getString(Constants.DISPLAY_NAME, null);
-        Log.i("HomeScreenActivity", "username from shared prefs: " + username);
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.actionbar);
+
+        username = PreferencesUtils.getMyDisplayName(getApplicationContext());
+        profileInfo = PreferencesUtils.getMyPicInfo(getApplicationContext());
+        Log.i("HomeScreenActivity", "from shared prefs: " + profileInfo);
+
         bundle = new Bundle();
-
         bundle.putString("display_name", username);
-
-
+        bundle.putString("pic_url", profileInfo);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //check if this is the first time the user has gotten to the application
         FloatingActionButton profileFAB = findViewById(R.id.profileFab);
 
-        SharedPreferences settingsCheck = getSharedPreferences(Constants.FIRST_TIME_USE,0);
+        SharedPreferences settingsCheck = getSharedPreferences(PreferencesUtils.FIRST_TIME_USE,0);
 
         if (settingsCheck.getBoolean("user_first_time",true) ){
             //user enters if it is the first time getting to this point of the application
@@ -93,7 +99,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 profileFAB.setActivated(true);
             }
 
-            settingsCheck.edit().putBoolean("user_first_time",false).apply();
+            settingsCheck.edit().putBoolean("user_first_time", false).apply();
 
         } else{
             navigation.setSelectedItemId(R.id.navigation_dashboard);
