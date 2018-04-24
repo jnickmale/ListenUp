@@ -55,7 +55,7 @@ dependencies {
 
     compile 'com.github.kaaes:spotify-web-api-android:0.4.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:cardview-v7:26.1.0'
 }
 
 
