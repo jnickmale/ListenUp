@@ -103,7 +103,7 @@ import java.util.List;
  *             // Response was successful and contains auth token
  *             case TOKEN:
  *                 // Handle successful response
- *                 String token = response.getAccessToken();
+ *                 String token = response.getMyAccessToken();
  *                 break;
  *
  *            // Auth flow returned an error
@@ -175,7 +175,7 @@ import java.util.List;
  *             // Response was successful and contains auth token
  *             case TOKEN:
  *                 // Handle successful response
- *                 String token = response.getAccessToken();
+ *                 String token = response.getMyAccessToken();
  *                 break;
  *
  *            // Auth flow returned an error
