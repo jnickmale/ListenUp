@@ -98,7 +98,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             //redirect user to settings tab and activate fab to set items
             navigation.setSelectedItemId(R.id.navigation_home);
             //activate the settings
-            //todo: check if this works!!!! :/
             if (profileFAB != null) {
                 profileFAB.setActivated(true);
             }
