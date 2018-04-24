@@ -40,7 +40,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                 //settings
                 //left
                 case R.id.navigation_home:
-                    profile.setArguments(bundle);
+                    if(profile.getArguments() == null) {
+                        profile.setArguments(bundle);
+                    }
                         fragmentTransaction.replace(R.id.attachTo,profile).commit();
                     return true;
                 //partner list
