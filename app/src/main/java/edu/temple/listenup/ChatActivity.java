@@ -33,6 +33,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private ArrayList<Message> messages;
+    private ChatMessagesAdapter chatMessagesAdapter;
 
 
     @Override
@@ -49,8 +50,14 @@ public class ChatActivity extends AppCompatActivity {
 
         setChatDatabaseListener();
 
-        Fragment chatFragment = ChatFragment.newInstance();
+        messages = new ArrayList<>();
+
+        Fragment chatFragment = ChatFragment.newInstance(messages);
         getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
+
+
+        //chatMessagesAdapter = new ChatMessagesAdapter(messages);
+        //TODO finish implementing adapter
     }
 
     public void setChatDatabaseListener(){
