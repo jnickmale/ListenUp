@@ -20,10 +20,10 @@ import edu.temple.listenup.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Profile extends Fragment {
+public class ProfileFragment extends Fragment {
     private String picURL;
 
-    public Profile() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
@@ -39,7 +39,7 @@ public class Profile extends Fragment {
         display.setText(getArguments().getString("display_name"));
 
         ImageView profilePic = view.findViewById(R.id.profilePicture);
-        Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(100, 100).centerCrop().into(profilePic);
+        Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(300, 300).centerCrop().into(profilePic);
 
         //Picasso
         //display.setText();

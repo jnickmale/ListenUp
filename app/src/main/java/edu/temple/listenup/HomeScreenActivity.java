@@ -17,7 +17,7 @@ import java.util.List;
 
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
-import edu.temple.listenup.Fragments.Profile;
+import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -29,7 +29,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     Fragment userSettingsFragment = new UserSettingsFragment();
     Fragment chatList = new MatchesFragment();
     Fragment partnerList = new PartnerListFragment();
-    Fragment profile = new Profile();
+    Fragment profile = new ProfileFragment();
     Bundle bundle;
     FragmentManager fragmentManager = getFragmentManager();
 
