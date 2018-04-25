@@ -8,10 +8,12 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 
 public class User {
 
-    private String id, displayName,sex,email;
+    private String id, displayName,sex,email,userimage;
 
     private double lon,lat, distance;
+    public User() {
 
+    }
     public User(UserPrivate user) {
         id = user.id;
         displayName = user.display_name;
@@ -27,9 +29,20 @@ public class User {
         this.lat = lat;
         this.distance = distance;
     }
-    public User() {
 
+    public User(String id, String displayName, String sex, String email, double lon, double lat, double distance, String userimage) {
+        this.id = id;
+        this.displayName = displayName;
+        this.sex = sex;
+        this.email = email;
+        this.lon = lon;
+        this.lat = lat;
+        this.distance = distance;
+        this.userimage=userimage;
     }
+
+
+
     public User(String id, String displayName, String sex, String email) {
         this.id = id;
         this.displayName = displayName;
@@ -93,4 +106,12 @@ public class User {
         this.distance = distance;
     }
 
+    public String getUserimage() {
+        return userimage;
+    }
+
+
+    public void setUserimage(String userimage) {
+        this.userimage = userimage;
+    }
 }

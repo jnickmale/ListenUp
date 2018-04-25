@@ -30,6 +30,7 @@
                 android:contentDescription="CardImageViewDesc" />
 
             <TextView
+                android:id="@+id/partnerName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/img"
@@ -37,7 +38,19 @@
                 android:layout_marginStart="5dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
-                android:text="ListenUp - stuff and more stuff"
+                android:text="partner name"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/partnerScore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/img"
+                android:layout_alignRight="@+id/partnerName"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center_horizontal"
+                android:text="score"
                 android:textSize="18sp" />
 
             <ImageButton
