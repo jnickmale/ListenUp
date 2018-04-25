@@ -45,7 +45,7 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
