@@ -9,6 +9,7 @@ public class PreferencesUtils {
     private static final String ACCESS_TOKEN_KEY = "accessToken";
     private static final String USER_ID = "userID";
     private static final String DISPLAY_NAME = "display_name";
+    private static final String CITY_INFO = "city_info";
     private static final String PIC_INFO = "pic_info";
 
     private static SharedPreferences sharedPrefs;
@@ -34,6 +35,10 @@ public class PreferencesUtils {
         getSharedPreferences(context).edit().putString(PIC_INFO, picURL).apply();
     }
 
+    public static void setMyCityInfo(String info, Context context) {
+        getSharedPreferences(context).edit().putString(CITY_INFO, info).apply();
+    }
+
     public static String getMyAccessToken(Context context) {
         return getSharedPreferences(context).getString(ACCESS_TOKEN_KEY, null);
     }
@@ -48,6 +53,10 @@ public class PreferencesUtils {
 
     public static String getMyPicInfo(Context context) {
         return getSharedPreferences(context).getString(PIC_INFO, null);
+    }
+
+    public static String getMyCityInfo(Context context) {
+        return getSharedPreferences(context).getString(CITY_INFO, null);
     }
 
 }

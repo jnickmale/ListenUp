@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     public void onLoggedIn() {
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
-
+        finish();
         Log.d("MainActivity", "User logged In");
         //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
 
