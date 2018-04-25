@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ public class PartnerListFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,12 +37,15 @@ public class PartnerListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        
+
+        //------- this is where we will insert the partner list data
         list = new ArrayList<String>();
         list.add("one");
         list.add("two");
         list.add("three");
-        //connect adapter to data
+        ///---------
+
+        //connect data to adapter
         adapter = new PartnerListAdapter(list,view.getContext());
         recyclerView.setAdapter(adapter);
 
