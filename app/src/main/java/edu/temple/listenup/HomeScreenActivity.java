@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -23,6 +24,7 @@ import edu.temple.listenup.Fragments.UserSettingsFragment;
 public class HomeScreenActivity extends AppCompatActivity {
 
     private String username, profileInfo;
+
     List picInfo;
 
     //the three fragments the user will navigate through
@@ -72,6 +74,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+
+
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.actionbar);
 
@@ -95,7 +99,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             //redirect user to settings tab and activate fab to set items
             navigation.setSelectedItemId(R.id.navigation_home);
             //activate the settings
-            //todo: check if this works!!!! :/
             if (profileFAB != null) {
                 profileFAB.setActivated(true);
             }
