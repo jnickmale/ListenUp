@@ -37,7 +37,7 @@ public class PartnerListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
+        
         list = new ArrayList<String>();
         list.add("one");
         list.add("two");
