@@ -27,9 +27,10 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     //the three fragments the user will navigate through
     Fragment userSettingsFragment = new UserSettingsFragment();
-    Fragment chatList = new MatchesFragment();
+    Fragment MatchList = new MatchesFragment();
     Fragment partnerList = new PartnerListFragment();
     Fragment profile = new ProfileFragment();
+
     Bundle bundle;
     FragmentManager fragmentManager = getFragmentManager();
 
@@ -57,8 +58,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                     return true;
                 //partner chat list
                 //right
-                case R.id.navigation_notifications:
-                    fragmentTransaction.replace(R.id.attachTo,chatList).commit();
+                case R.id.navigation_matches:
+                    fragmentTransaction.replace(R.id.attachTo,MatchList).commit();//match list frag
                     return true;
             }
 

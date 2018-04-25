@@ -182,11 +182,20 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
+        try {//this check to see if rhe user has a image if the use
         Log.i("MainActivity", "Image info: " + user.images.get(0).url + "");
-
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("this was the issue");
+        }
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
-        PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
+
+        try {
+            PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("this was the issue");
+        }
+
 
         User newUser = new User();
 
