@@ -83,7 +83,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
                     return true;
                 //partner chat list
                 //right
-                case R.id.navigation_notifications:
+                case R.id.navigation_matches:
                     fragmentTransaction.replace(R.id.attachTo, chatList).commit();
                     return true;
             }
