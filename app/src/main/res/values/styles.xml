@@ -12,4 +12,9 @@
         <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
+
+    <style name="NavTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/uni_sans_thin</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>

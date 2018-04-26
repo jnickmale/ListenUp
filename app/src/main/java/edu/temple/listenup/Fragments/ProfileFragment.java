@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
@@ -70,7 +71,9 @@ public class ProfileFragment extends Fragment {
         display.setText(getArguments().getString("display_name"));
 
         // Gets string from bundle and sets textview to user's image
-        ImageView profilePic = view.findViewById(R.id.profilePicture);
+        //ImageView profilePic = view.findViewById(R.id.profilePicture);
+
+        CircularImageView profilePic = (CircularImageView) view.findViewById(R.id.profilePicture);
         Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(300, 300).centerCrop().into(profilePic);
 
 

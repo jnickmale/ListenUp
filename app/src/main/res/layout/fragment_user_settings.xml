@@ -9,10 +9,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        >
+        android:background="#000000"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
 
         <!--<ImageView android:src="@drawable/logo"
             android:layout_width="wrap_content"
@@ -43,9 +43,11 @@
 
             <EditText
                 android:id="@+id/input_age"
+                android:textColorHint="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#b917cb"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="#FFFFFF"
                 android:hint="age"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
@@ -58,7 +60,9 @@
 
 
             <EditText android:id="@+id/input_radius"
-                android:backgroundTint="#b917cb"
+                android:textColor="#FFFFFF"
+                android:textColorHighlight="#FFFFFF"
+                android:backgroundTint="@color/colorAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -74,7 +78,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:background="#b917cb"
+            android:background="@color/colorAccent"
             android:textColor="@android:color/white"
             android:text="Done!"/>
 
