@@ -42,9 +42,6 @@ public class ProfileFragment extends Fragment {
     private String locationInfo, myID;
     private View view;
 
-    private DatabaseReference myDatabase;
-
-
     public ProfileFragment() {
         // Required empty public constructor
     }

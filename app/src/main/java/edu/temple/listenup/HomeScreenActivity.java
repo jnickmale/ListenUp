@@ -57,8 +57,6 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     private Location location;
     private double lat, longi;
 
-    private DatabaseReference myDatabase;
-
     //cycle through the fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -96,10 +94,6 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        //get database reference, will be used to update location information
-        myDatabase = FirebaseDatabase.getInstance().getReference();
-
 
         //changes the action bar to a custom layout -- our logo
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -234,8 +228,11 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             longi = location.getLongitude();
 
             Log.i("HomeScreenActivity", "longitude: " + longi + " latitude: " + lat);
-            myDatabase.child("users").child(myID).child("lat").setValue(lat);
-            myDatabase.child("users").child(myID).child("lon").setValue(longi);
+
+            DatabaseHelper.setMyLatitude(myID, lat);
+            DatabaseHelper.setMyLongitude(myID, longi);
+            //myDatabase.child("users").child(myID).child("lat").setValue(lat);
+            //myDatabase.child("users").child(myID).child("lon").setValue(longi);
 
         }
     }

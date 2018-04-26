@@ -184,7 +184,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         newUser.setDisplayName(user.display_name);
         newUser.setEmail(user.email);
 
-        myDatabase.child("users").child(newUser.getID()).setValue(newUser);
+        DatabaseHelper.setMyUserID(newUser, newUser.getID());
     }
 
 }
