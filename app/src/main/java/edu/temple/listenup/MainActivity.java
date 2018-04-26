@@ -54,25 +54,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         setContentView(R.layout.activity_main);
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
-/*
-        myDatabase.child("users").addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Get map of users in datasnapshot
-                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                            Log.i("MainActivity", dsp.getValue().toString());
-
-                        }
-                        Log.i("MainActivity", dataSnapshot.getValue().toString());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
-                    }
-                });
-*/
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
         builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basically mean what we need from the object....)
