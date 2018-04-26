@@ -10,6 +10,7 @@
     <string name="title_matches">Your Matches</string>
     <string name="title_profile">Profile</string>
     <string name="title_listenersnearyou">Listeners Near You</string>
+    <string name="listenup_logo">listenup logo</string>
 
 
 </resources>

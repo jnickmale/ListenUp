@@ -11,14 +11,17 @@
 
         <ImageView
             android:id="@+id/profilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"
             android:layout_marginStart="18dp"
             android:layout_marginTop="16dp"
+            android:adjustViewBounds="false"
+            android:contentDescription="UserImage"
+            android:scaleType="fitCenter"
             app:srcCompat="@mipmap/ic_launcher_round" />
 
         <TextView
@@ -31,7 +34,8 @@
             android:layout_marginStart="26dp"
             android:layout_toEndOf="@+id/profilePicture"
             android:layout_toRightOf="@+id/profilePicture"
-            android:text="Name" />
+            android:text="Name"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/ChatID"
@@ -39,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/namesID"
             android:layout_alignBottom="@+id/namesID"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="13dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginRight="23dp"
             android:layout_toLeftOf="@+id/MatchPlayID"
             android:layout_toStartOf="@+id/MatchPlayID"
             android:text="chat" />
@@ -53,8 +57,6 @@
             android:layout_alignBottom="@+id/namesID"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="17dp"
-            android:layout_marginRight="17dp"
             android:text="MatchPlay" />
     </RelativeLayout>
 </LinearLayout>
