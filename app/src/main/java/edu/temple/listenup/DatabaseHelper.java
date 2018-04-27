@@ -25,9 +25,6 @@ public class DatabaseHelper {
         myDatabase.child("users").child(ID).setValue(user);
     }
 
-    public static void get
-
-
 
     /*
     public double getLongitude() {
