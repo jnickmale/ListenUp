@@ -17,6 +17,7 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
  */
 
 public class SpotifyAPIManager {
+
     private static final SpotifyApi api = new SpotifyApi();
 
     public static SpotifyService getService() {

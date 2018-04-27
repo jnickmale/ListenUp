@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         startActivity(intent);
         finish();
         Log.d("MainActivity", "User logged In");
-        //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
+        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
 
@@ -163,7 +163,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
-        try {//this check to see if rhe user has a image if the use
+        try {//this checks to see if rhe user has a image if the use
         Log.i("MainActivity", "Image info: " + user.images.get(0).url + "");
         }catch (IndexOutOfBoundsException e){
             System.out.println("this was the issue");
