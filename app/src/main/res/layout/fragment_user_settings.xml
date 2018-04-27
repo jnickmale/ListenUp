@@ -34,24 +34,6 @@
                 android:hint="name" />
         </android.support.design.widget.TextInputLayout> -->
 
-        <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/input_age"
-                android:textColorHint="#FFFFFF"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
-                android:textColor="#FFFFFF"
-                android:hint="age"
-                android:inputType="number" />
-        </android.support.design.widget.TextInputLayout>
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
@@ -59,14 +41,39 @@
             android:layout_marginBottom="8dp">
 
 
-            <EditText android:id="@+id/input_radius"
-                android:textColor="#FFFFFF"
-                android:textColorHighlight="#FFFFFF"
-                android:backgroundTint="@color/colorAccent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp"
+                    android:text="Set Radius: " />
+
+                <TextView
+                    android:id="@+id/radius_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="25dp"
+                    android:layout_gravity="right"
+                    android:gravity="top"
+                    android:textColor="@color/colorAccent"
+                    android:text="0" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="set radius" />
+                android:layout_weight="1" />
+
         </android.support.design.widget.TextInputLayout>
 
 

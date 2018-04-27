@@ -34,12 +34,12 @@ public class UserSettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_settings, container, false);
 
         // Inflate the layout for this fragment
-        userAge = view.findViewById(R.id.input_age);
+        //userAge = view.findViewById(R.id.input_age);
        if (userAge.getText().toString() != null) {
            age = Integer.valueOf(userAge.getText().toString());
        }
 
-       radius =  view.findViewById(R.id.input_radius);
+      // radius =  view.findViewById(R.id.input_radius);
         if (radius.getText().toString() != null) {
             userRadius = Integer.valueOf(radius.getText().toString());
         }

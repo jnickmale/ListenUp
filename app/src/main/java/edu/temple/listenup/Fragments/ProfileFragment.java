@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 
@@ -89,21 +90,34 @@ public class ProfileFragment extends Fragment {
                 final Toasty toasty = new Toasty(getActivity());
                 //display
                 toasty.show();
+
+                //initialize seekbar
+                SeekBar seekBar = toasty.findViewById(R.id.seekBar);
+                //set max radius to 50
+                seekBar.setMax(50);
+                final TextView radiusValue = toasty.findViewById(R.id.radius_value);
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        //set textview to current value of seekbar
+                        radiusValue.setText(String.valueOf(i));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
                 Button button = toasty.findViewById(R.id.btn_signup);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        //get users settings
-                        EditText userAge = toasty.findViewById(R.id.input_age);
-                        if (userAge.getText().toString() != "") {
-                            //int age = Integer.valueOf(userAge.getText().toString());
-                        }
-
-                        EditText radius = toasty.findViewById(R.id.input_radius);
-                        if (radius.getText().toString() != "") {
-                            //int userRadius = Integer.valueOf(radius.getText().toString());
-                        }
                         //destroy this custom toast
                         toasty.dismiss();
 
