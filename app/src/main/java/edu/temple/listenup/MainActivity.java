@@ -54,25 +54,6 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         setContentView(R.layout.activity_main);
 
         myDatabase = FirebaseDatabase.getInstance().getReference();
-/*
-        myDatabase.child("users").addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Get map of users in datasnapshot
-                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                            Log.i("MainActivity", dsp.getValue().toString());
-
-                        }
-                        Log.i("MainActivity", dataSnapshot.getValue().toString());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
-                    }
-                });
-*/
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
         builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basically mean what we need from the object....)
@@ -86,9 +67,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
     public void onLoggedIn() {
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
-
+        finish();
         Log.d("MainActivity", "User logged In");
-        //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)potify:track:4jtyUzZm9WLc2AdaJ1dso
+        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
 
@@ -182,11 +163,20 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
+        try {//this checks to see if rhe user has a image if the use
         Log.i("MainActivity", "Image info: " + user.images.get(0).url + "");
-
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("this was the issue");
+        }
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
-        PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
+
+        try {
+            PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("this was the issue");
+        }
+
 
         User newUser = new User();
 
@@ -194,7 +184,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         newUser.setDisplayName(user.display_name);
         newUser.setEmail(user.email);
 
-        myDatabase.child("users").child(newUser.getID()).setValue(newUser);
+        DatabaseHelper.setMyUserID(newUser, newUser.getID());
     }
 
 }
