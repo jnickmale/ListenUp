@@ -21,6 +21,10 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
+import edu.temple.listenup.Models.User;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
 
@@ -69,7 +73,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         startActivity(intent);
         finish();
         Log.d("MainActivity", "User logged In");
-        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
+        //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
 
@@ -113,6 +117,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
             //get the data from then intent
             response = AuthenticationClient.getResponse(resultCode, data);
 
+            Log.wtf("Response Code", response.getError());
+
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 //get authentication token and set to myAccessToken variable
                 myAccessToken = response.getAccessToken();
@@ -130,6 +136,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     @Override
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
+                        //SpotifyAPIManager.getMyFollowedArtists();
                         writeNewUser(user);
                     }
                 });
@@ -168,6 +175,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         }catch (IndexOutOfBoundsException e){
             System.out.println("this was the issue");
         }
+
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
 
@@ -185,6 +193,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         newUser.setEmail(user.email);
 
         DatabaseHelper.setMyUserID(newUser, newUser.getID());
+
     }
 
 }

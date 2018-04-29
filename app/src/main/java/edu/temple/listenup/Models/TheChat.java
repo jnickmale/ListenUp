@@ -1,4 +1,4 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Models;
 
 import java.util.Date;
 

@@ -54,6 +54,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/colorAccent"
                     android:textSize="25dp"
+                    android:fontFamily="@font/uni_sans_thin"
                     android:text="Set Radius: " />
 
                 <TextView
@@ -65,6 +66,7 @@
                     android:layout_gravity="right"
                     android:gravity="top"
                     android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/uni_sans_thin"
                     android:text="0" />
             </LinearLayout>
 

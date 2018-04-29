@@ -1,4 +1,7 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Models;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
@@ -6,9 +9,9 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
  * Created by kingJ on 4/11/2018.
  */
 
-public class User {
+public class User implements Parcelable {
 
-    private String id, displayName,sex,email,userimage;
+    private String id, displayName,sex,email, userImage;
 
     private double lon,lat, distance;
     public User() {
@@ -18,6 +21,13 @@ public class User {
         id = user.id;
         displayName = user.display_name;
         email = user.email;
+
+        String image = user.images.get(0).url;
+
+        if (image != null) {
+            userImage = image;
+        }
+
     }
 
     public User(String id, String displayName, String sex, String email, double lon, double lat, double distance) {
@@ -30,7 +40,7 @@ public class User {
         this.distance = distance;
     }
 
-    public User(String id, String displayName, String sex, String email, double lon, double lat, double distance, String userimage) {
+    public User(String id, String displayName, String sex, String email, double lon, double lat, double distance, String userImage) {
         this.id = id;
         this.displayName = displayName;
         this.sex = sex;
@@ -38,7 +48,7 @@ public class User {
         this.lon = lon;
         this.lat = lat;
         this.distance = distance;
-        this.userimage=userimage;
+        this.userImage = userImage;
     }
 
 
@@ -49,6 +59,29 @@ public class User {
         this.sex = sex;
         this.email = email;
     }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        displayName = in.readString();
+        sex = in.readString();
+        email = in.readString();
+        userImage = in.readString();
+        lon = in.readDouble();
+        lat = in.readDouble();
+        distance = in.readDouble();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getID() {
         return id;
@@ -106,12 +139,27 @@ public class User {
         this.distance = distance;
     }
 
-    public String getUserimage() {
-        return userimage;
+    public String getUserImage() {
+        return userImage;
     }
 
 
-    public void setUserimage(String userimage) {
-        this.userimage = userimage;
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.displayName);
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lon);
+        dest.writeString(this.userImage);
     }
 }

@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -31,8 +32,9 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
 import edu.temple.listenup.Objects.Toasty;
-import edu.temple.listenup.PreferencesUtils;
+import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.R;
 
 public class ProfileFragment extends Fragment {

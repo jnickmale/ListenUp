@@ -1,6 +1,5 @@
 package edu.temple.listenup;
 
-import android.*;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -16,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -24,11 +24,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,13 +35,16 @@ import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
+import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.Models.User;
 
 public class HomeScreenActivity extends AppCompatActivity implements LocationListener {
 
     private String LOCATION_UPDATED = "action_location_updated";
 
     private String username, profileInfo, myID;
-    List picInfo;
+    private List<User> userList;
 
     //the three fragments the user will navigate through
     private Fragment userSettingsFragment = new UserSettingsFragment();
@@ -146,6 +148,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             return;
         }
 
+        Log.wtf("HomeScreenActivity", "Reaches this line.");
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 10, this);
@@ -178,13 +181,8 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(lat, longi, 1);
 
-            String[] cityInfo = new String[3];
 
             if (addresses.size() > 0) {
-                //cityInfo[0] = addresses.get(0).getLocality(); //get city location
-                //cityInfo[1] = addresses.get(0).getAdminArea(); //get state location
-                //cityInfo[2] = addresses.get(0).getCountryName(); //get country name
-
                 city = addresses.get(0).getLocality(); //get city location
                 state = addresses.get(0).getAdminArea(); //get state location
                 country = addresses.get(0).getCountryName(); //get country name
@@ -229,11 +227,16 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
 
             Log.i("HomeScreenActivity", "longitude: " + longi + " latitude: " + lat);
 
-            DatabaseHelper.setMyLatitude(myID, lat);
-            DatabaseHelper.setMyLongitude(myID, longi);
-            //myDatabase.child("users").child(myID).child("lat").setValue(lat);
-            //myDatabase.child("users").child(myID).child("lon").setValue(longi);
+            if (lat != 0 && longi != 0) {
+                DatabaseHelper.setMyLatitude(myID, lat);
+                DatabaseHelper.setMyLongitude(myID, longi);
+            } else {
+                Toast.makeText(this, "Not working", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
     }
+
+
 }

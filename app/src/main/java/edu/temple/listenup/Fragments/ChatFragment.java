@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import edu.temple.listenup.ChatMessagesAdapter;
+import edu.temple.listenup.Adapters.ChatMessagesAdapter;
 import edu.temple.listenup.R;
 
 /**

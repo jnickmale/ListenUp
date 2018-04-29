@@ -1,23 +1,17 @@
 package edu.temple.listenup.Fragments;
 
 
-import android.app.ListFragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.view.menu.MenuAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import edu.temple.listenup.ImageModel;
-import edu.temple.listenup.MatchAdapter;
+import edu.temple.listenup.Models.ImageModel;
+import edu.temple.listenup.Adapters.MatchAdapter;
 import edu.temple.listenup.R;
 
 /**

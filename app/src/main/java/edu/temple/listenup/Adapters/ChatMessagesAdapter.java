@@ -1,4 +1,4 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import edu.temple.listenup.R;
 
 public class ChatMessagesAdapter extends RecyclerView.Adapter {
     private ArrayList messages;

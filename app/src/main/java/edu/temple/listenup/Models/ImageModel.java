@@ -1,4 +1,4 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Models;
 
 /**
  * Created by kingJ on 4/24/2018.

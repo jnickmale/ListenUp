@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.temple.listenup.User;
+import edu.temple.listenup.Models.User;
 
 /**
  * Created by guillermo on 4/26/18.

@@ -21,6 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
         </FrameLayout>
+
         <android.support.design.widget.BottomNavigationView
             android:layout_gravity="bottom"
             android:id="@+id/navigation"
