@@ -11,12 +11,17 @@ public class PreferencesUtils {
     private static final String DISPLAY_NAME = "display_name";
     private static final String CITY_INFO = "city_info";
     private static final String PIC_INFO = "pic_info";
+    private static final String RADIUS = "radius";
 
     private static SharedPreferences sharedPrefs;
 
     private static SharedPreferences getSharedPreferences(Context context) {
          sharedPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
          return sharedPrefs;
+    }
+
+    public static void setMyRadius(int radius, Context context) {
+        getSharedPreferences(context).edit().putInt(RADIUS, radius).apply();
     }
 
     public static void setMyAccessToken(String accessToken, Context context) {
