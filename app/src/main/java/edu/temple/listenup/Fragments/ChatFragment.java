@@ -23,16 +23,18 @@ public class ChatFragment extends Fragment {
     private ChatMessagesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList myDataset;
+    private String username;
 
 
     public ChatFragment() {
         // Required empty public constructor
     }
 
-    public static ChatFragment newInstance(ArrayList messages) {
+    public static ChatFragment newInstance(ArrayList messages, String username) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putSerializable("messages", messages);
+        args.putString("username", username);
         fragment.setArguments(args);
 
         return fragment;
@@ -43,6 +45,8 @@ public class ChatFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         setMyDataset((ArrayList)(getArguments().getSerializable("messages")));
+        this.username = getArguments().getString("username");
+
 
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.messagesView);
 
@@ -55,7 +59,7 @@ public class ChatFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter
-        mAdapter = new ChatMessagesAdapter(myDataset);
+        mAdapter = new ChatMessagesAdapter(myDataset, username);
         mRecyclerView.setAdapter(mAdapter);
     }
 

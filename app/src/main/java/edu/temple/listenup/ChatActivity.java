@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,12 +53,10 @@ public class ChatActivity extends AppCompatActivity {
 
         messages = new ArrayList<>();
 
-        Fragment chatFragment = ChatFragment.newInstance(messages);
+        Fragment chatFragment = ChatFragment.newInstance(messages, thisUser);
         getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
 
 
-        //chatMessagesAdapter = new ChatMessagesAdapter(messages);
-        //TODO finish implementing adapter
     }
 
     public void setChatDatabaseListener(){
@@ -129,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private class Message{
+    public class Message implements Serializable{
         private String ID, content, fromUsername, toUsername;
         private Date dateSent, dateReceived;
 
