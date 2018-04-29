@@ -35,7 +35,6 @@ public class SpotifyAPIManager {
         api.setAccessToken(token);
     }
 
-
     public static void getMyFollowedArtists() {
         List<Artist> artists = getService().getFollowedArtists().artists.items;
         Artist justChecking = artists.get(0);

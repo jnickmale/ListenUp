@@ -51,7 +51,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         //------- this is where we will insert the partner list data
-        DatabaseHelper.getAllUsers(this);
+        DatabaseHelper.getAllUsersWithinRadius(this, getActivity());
 
         List<String> list = new ArrayList<>();
         list.add("one");

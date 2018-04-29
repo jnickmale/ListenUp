@@ -12,12 +12,20 @@ public class PreferencesUtils {
     private static final String CITY_INFO = "city_info";
     private static final String PIC_INFO = "pic_info";
     private static final String RADIUS = "radius";
+    private static final String LATITUDE = "latitude";
+    private static final String LONGITUDE = "longitude";
 
     private static SharedPreferences sharedPrefs;
 
     private static SharedPreferences getSharedPreferences(Context context) {
          sharedPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
          return sharedPrefs;
+    }
+
+    public static void setMyLongitudeLatitude(double longitude, double latitude, Context context) {
+        getSharedPreferences(context).edit().putString(RADIUS, String.valueOf(longitude)).apply();
+        getSharedPreferences(context).edit().putString(RADIUS, String.valueOf(latitude)).apply();
+
     }
 
     public static void setMyRadius(int radius, Context context) {
@@ -42,6 +50,18 @@ public class PreferencesUtils {
 
     public static void setMyCityInfo(String info, Context context) {
         getSharedPreferences(context).edit().putString(CITY_INFO, info).apply();
+    }
+
+    public static String getMyRadius(Context context) {
+        return getSharedPreferences(context).getString(RADIUS, null);
+    }
+
+    public static String getMyLongitude(Context context) {
+        return getSharedPreferences(context).getString(LONGITUDE, null);
+    }
+
+    public static String getMyLatitude(Context context) {
+        return getSharedPreferences(context).getString(LATITUDE, null);
     }
 
     public static String getMyAccessToken(Context context) {

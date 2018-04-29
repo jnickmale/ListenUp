@@ -1,8 +1,13 @@
 package edu.temple.listenup.Models;
 
+import android.content.Context;
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.HomeScreenActivity;
+import edu.temple.listenup.MainActivity;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
 /**
@@ -162,4 +167,23 @@ public class User implements Parcelable {
         dest.writeDouble(this.lon);
         dest.writeString(this.userImage);
     }
+
+    public void setDistanceFromUser() {
+        Location locationMyUser = new Location("point A");
+        Location locationThisUser = new Location("point B");
+
+        double distance;
+
+        locationMyUser.setLatitude(HomeScreenActivity.lat);
+        locationMyUser.setLongitude(HomeScreenActivity.longi);
+
+        locationThisUser.setLatitude(getLat());
+        locationThisUser.setLongitude(getLon());
+
+        distance = (int) locationMyUser.distanceTo(locationThisUser);
+        this.distance = distance;
+
+        //return distance;
+    }
+
 }

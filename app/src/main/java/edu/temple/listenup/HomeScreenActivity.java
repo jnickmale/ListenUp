@@ -57,7 +57,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     private Bundle bundle;
 
     private Location location;
-    private double lat, longi;
+    public static double lat, longi;
 
     //cycle through the fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -174,6 +174,8 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     @Override
     public void onLocationChanged(Location location) {
         updateLocationInDatabase(location);
+        updateLocationInPreferences(location);
+
         String city, state, country;
 
         try {
@@ -236,6 +238,10 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
 
 
         }
+    }
+
+    private void updateLocationInPreferences(Location location) {
+            PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
     }
 
 

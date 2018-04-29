@@ -47,7 +47,7 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
         //bind data to ViewHolder
         final User user = list.get(position);
         holder.profileName.setText(user.getDisplayName());
-        holder.score.setText("40");
+        holder.score.setText(String.valueOf(user.getDistance()));
 
         String image = user.getUserImage();
 
