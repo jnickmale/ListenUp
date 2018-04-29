@@ -44,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private String LOCATION_UPDATED = "action_location_updated";
     private String locationInfo, myID;
     private View view;
+    PreferencesUtils preferencesUtils = new PreferencesUtils();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -94,7 +95,7 @@ public class ProfileFragment extends Fragment {
                 toasty.show();
 
                 //initialize seekbar
-                SeekBar seekBar = toasty.findViewById(R.id.seekBar);
+                final SeekBar seekBar = toasty.findViewById(R.id.seekBar);
                 //set max radius to 50
                 seekBar.setMax(50);
                 final TextView radiusValue = toasty.findViewById(R.id.radius_value);
@@ -120,9 +121,11 @@ public class ProfileFragment extends Fragment {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int radius = Integer.parseInt(radiusValue.getText().toString());
+                        //send radius to sharedprefs
+                        preferencesUtils.setMyRadius(radius,getActivity().getApplicationContext());
                         //destroy this custom toast
                         toasty.dismiss();
-
                     }
                 });
             }
@@ -143,6 +146,4 @@ public class ProfileFragment extends Fragment {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
     }
-
-
 }
