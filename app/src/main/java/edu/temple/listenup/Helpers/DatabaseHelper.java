@@ -71,9 +71,15 @@ public class DatabaseHelper {
                     //set distance from user in the User object
                     newUser.setDistanceFromUser();
                     distance = newUser.getDistance();
+                    double radius;
 
                     //checks if new user is within the radius specified by current user
-                    if (distance < Double.valueOf(PreferencesUtils.getMyRadius(context))) {
+                    if(PreferencesUtils.getMyRadius(context) == null){
+                        radius = 1;
+                    }else{
+                        radius = Double.valueOf(PreferencesUtils.getMyRadius(context));
+                    }
+                    if (distance < radius) {
 
                         AsyncTask.execute(new Runnable() {
                             @Override
