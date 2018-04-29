@@ -24,13 +24,15 @@ import java.util.Date;
 
 import edu.temple.listenup.Fragments.ChatFragment;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatFragment.MessageCreator{
     private String thisUser;
     private String chattingWith;
     private String chatID;
     private DataSnapshot chatData;
     private FirebaseDatabase myDatabase;
     private DatabaseReference chatReference;
+
+    ChatFragment chatFragment;
 
 
     private ArrayList<Message> messages;
@@ -45,16 +47,19 @@ public class ChatActivity extends AppCompatActivity {
         thisUser = intent.getStringExtra("username");
         chattingWith = intent.getStringExtra("matchUsername");
         chatID = intent.getStringExtra("chatID");
+
+
+        messages = new ArrayList<>();
+
+        chatFragment = ChatFragment.newInstance(messages, thisUser);
+        getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
+
+
         myDatabase = FirebaseDatabase.getInstance();
 
         chatReference = myDatabase.getReference("chats").child(chatID);
 
         setChatDatabaseListener();
-
-        messages = new ArrayList<>();
-
-        Fragment chatFragment = ChatFragment.newInstance(messages, thisUser);
-        getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
 
 
     }
@@ -116,6 +121,9 @@ public class ChatActivity extends AppCompatActivity {
             theNewMessage = ds.getValue(Message.class);
         }
         messages.add(dataSnapshot.getValue(Message.class));
+        if(chatFragment != null){
+            chatFragment.notifyAdapterDataChanged();
+        }
     }
 
     /**
@@ -125,6 +133,21 @@ public class ChatActivity extends AppCompatActivity {
     public void addMessage(DataSnapshot dataSnapshot){
         Message theNewMessage = dataSnapshot.getValue(Message.class);
         messages.add(theNewMessage);
+    }
+
+    @Override
+    public Message generateMessage(String message) {
+        Message theMessage;
+        theMessage = new Message(null, message, (new Date()).toString(), null, thisUser, chattingWith);
+
+        return theMessage;
+    }
+
+    @Override
+    public void addMessageToFirebase(Message message) {
+        if(chatReference != null){
+            chatReference.child(Long.toString(chatData.getChildrenCount())).setValue(message);
+        }
     }
 
 
