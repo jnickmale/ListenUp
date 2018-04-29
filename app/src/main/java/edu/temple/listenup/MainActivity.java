@@ -131,6 +131,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
                         writeNewUser(user);
+                        registerUserFCMToken(user);
                     }
                 });
 
@@ -185,6 +186,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         newUser.setEmail(user.email);
 
         DatabaseHelper.setMyUserID(newUser, newUser.getID());
+    }
+
+    private void registerUserFCMToken(UserPrivate user){
+
+        Intent intent = new Intent(MainActivity.this, MyFirebaseInstanceIDService.class);
+        intent.putExtra("userID", user.id);
+        startService(intent);
     }
 
 }

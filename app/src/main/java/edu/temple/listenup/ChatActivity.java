@@ -116,11 +116,13 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.Mess
      * @param dataSnapshot
      */
     public void updateChatData(DataSnapshot dataSnapshot){
+        messages.clear();
+
         Message theNewMessage;
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             theNewMessage = ds.getValue(Message.class);
+            messages.add(theNewMessage);
         }
-        messages.add(dataSnapshot.getValue(Message.class));
         if(chatFragment != null){
             chatFragment.notifyAdapterDataChanged();
         }
