@@ -2,7 +2,9 @@ package edu.temple.listenup;
 //Gmo branch
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -190,9 +193,14 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
     private void registerUserFCMToken(UserPrivate user){
 
-        Intent intent = new Intent(MainActivity.this, MyFirebaseInstanceIDService.class);
-        intent.putExtra("userID", user.id);
-        startService(intent);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+
+        if(refreshedToken != null) {
+            FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = myDatabase.getReference("fcmTokens").child(user.id);
+            databaseReference.setValue(refreshedToken);
+        }
     }
 
 }
