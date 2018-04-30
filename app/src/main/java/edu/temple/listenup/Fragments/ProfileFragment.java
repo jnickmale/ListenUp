@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,6 +54,8 @@ public class ProfileFragment extends Fragment {
     private String LOCATION_UPDATED = "action_location_updated";
     private String locationInfo, myID;
     private View view;
+    ArrayList<String> artistPics = new ArrayList<>();
+
     PreferencesUtils preferencesUtils = new PreferencesUtils();
 
     public ProfileFragment() {
@@ -107,9 +110,21 @@ public class ProfileFragment extends Fragment {
 
         //Populate Current User's followed artists
 
-    //    LinearLayout layout = (LinearLayout) view.findViewById(R.id.linear);
+        LinearLayout layout = view.findViewById(R.id.linear);
 
-        Map<String, String> pleaseWork = PreferencesUtils.getMyFollowedArtistsAsMap(getActivity());
+        int i = 0;
+        artistPics = getArguments().getStringArrayList("artists_pics");
+
+        for (String value : artistPics) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setId(i);
+            imageView.setPadding(2, 2, 2, 2);
+
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            layout.addView(imageView);
+            Picasso.with(getActivity()).load(value).resize(300, 300).centerCrop().into(imageView);
+            i++;
+        }
 
 
         //onclick floating action button to spawn custom toast
@@ -181,17 +196,6 @@ public class ProfileFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
     }
 
-    private Map<String, String> toMap(JSONObject object) throws JSONException {
-        Map<String, String> map = new HashMap();
-        Iterator keys = object.keys();
-        Log.i("PleaseMapWork", "get to this line.");
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            Log.i("PleaseMapWork", key);
-            map.put(key, (String) object.get(key));
-        }
-        return map;
-    }
 
 
 }

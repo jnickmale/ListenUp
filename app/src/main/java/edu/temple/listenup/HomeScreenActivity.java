@@ -14,6 +14,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -24,12 +25,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
@@ -37,6 +40,7 @@ import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
 import edu.temple.listenup.Helpers.DatabaseHelper;
 import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
 import edu.temple.listenup.Models.User;
 
 public class HomeScreenActivity extends AppCompatActivity implements LocationListener {
@@ -44,7 +48,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     private String LOCATION_UPDATED = "action_location_updated";
 
     private String username, profileInfo, myID;
-    private List<User> userList;
+    private ArrayList<String> artistPicsList;
 
     //the three fragments the user will navigate through
     private Fragment userSettingsFragment = new UserSettingsFragment();
@@ -106,12 +110,15 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         profileInfo = PreferencesUtils.getMyPicInfo(getApplicationContext());
         myID = PreferencesUtils.getMySpotifyUserID(getApplicationContext());
 
+        artistPicsList = getListOfArtistImages(PreferencesUtils.getMyFollowedArtistsAsMap(getApplicationContext()));
+
         Log.i("HomeScreenActivity", "from shared prefs: " + profileInfo);
 
         //send user info to fragments
         bundle = new Bundle();
         bundle.putString("display_name", username);
         bundle.putString("pic_url", profileInfo);
+        bundle.putStringArrayList("artists_pics", artistPicsList);
 
         //set bottom navigation stuff
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -245,5 +252,21 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
     }
 
+    private ArrayList<String> getListOfArtistImages(Map<String, String> followedArtists) {
+        final ArrayList<String> followed = new ArrayList<>();
+
+        for (final String value : followedArtists.values()) {
+            final String[] image = new String[1];
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    image[0] = SpotifyAPIManager.getArtistImage(value);
+                    followed.add(image[0]);
+                }
+            });
+        }
+
+        return followed;
+    }
 
 }

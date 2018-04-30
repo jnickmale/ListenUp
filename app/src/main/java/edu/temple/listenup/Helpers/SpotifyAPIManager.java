@@ -40,6 +40,17 @@ public class SpotifyAPIManager {
         api.setAccessToken(token);
     }
 
+    public static String getArtistImage(String ID) {
+        Artist artist = getService().getArtist(ID);
+        String image = artist.images.get(0).url;
+
+        if (image != null) {
+            return image;
+        }
+
+        return null;
+    }
+
     public static Map<String, String> getMyFollowedArtists() {
         //List<String> artistString = new ArrayList<>();
         Map<String, String> artistList = new HashMap<>();

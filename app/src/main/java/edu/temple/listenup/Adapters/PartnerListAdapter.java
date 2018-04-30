@@ -53,11 +53,7 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
 
         if (image != null) {
             Picasso.with(context).load(image).resize(300, 300).into(holder.profilePic);
-        }else{
-
-
-
-                    }
+        }
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
