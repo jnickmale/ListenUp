@@ -7,6 +7,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //display a toast to notify the user that someone sent a chat
+        //send a broadcaset to the activity which will then display a toast to notify the user that someone sent a chat
     }
 }

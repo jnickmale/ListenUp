@@ -25,6 +25,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,6 +44,7 @@ import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
+import kaaes.spotify.webapi.android.models.UserPublic;
 import edu.temple.listenup.Helpers.DatabaseHelper;
 import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.Helpers.SpotifyAPIManager;
@@ -246,6 +253,32 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
 
 
         }
+    }
+
+    public void loadUserImageIntoView(String userID, View into){
+        final String ID = userID;
+        final View intoFinal = into;
+        AsyncTask async = new AsyncTask() {
+            private String imageURL;
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                UserPublic userPublic = SpotifyAPIManager.getService().getUser(ID);
+                try {
+                    imageURL = userPublic.images.get(0).url;
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("this was the issue");
+                }
+                return imageURL;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                Picasso.with(HomeScreenActivity.this).load(imageURL).into((ImageView)intoFinal);
+            }
+        };
+        async.execute();
     }
 
     private void updateLocationInPreferences(Location location) {

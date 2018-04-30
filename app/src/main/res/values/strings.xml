@@ -12,5 +12,7 @@
     <string name="title_listenersnearyou">Listeners Near You</string>
     <string name="listenup_logo">listenup logo</string>
 
+    <string name="sendingButtonText">^</string>
+
 
 </resources>

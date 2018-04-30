@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,13 +23,15 @@ import java.util.Date;
 import edu.temple.listenup.Adapters.ChatMessagesAdapter;
 import edu.temple.listenup.Fragments.ChatFragment;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatFragment.MessageCreator{
     private String thisUser;
     private String chattingWith;
     private String chatID;
     private DataSnapshot chatData;
     private FirebaseDatabase myDatabase;
     private DatabaseReference chatReference;
+
+    ChatFragment chatFragment;
 
 
     private ArrayList<Message> messages;
@@ -43,20 +46,21 @@ public class ChatActivity extends AppCompatActivity {
         thisUser = intent.getStringExtra("username");
         chattingWith = intent.getStringExtra("matchUsername");
         chatID = intent.getStringExtra("chatID");
+
+
+        messages = new ArrayList<>();
+
+        chatFragment = ChatFragment.newInstance(messages, thisUser);
+        getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
+
+
         myDatabase = FirebaseDatabase.getInstance();
 
         chatReference = myDatabase.getReference("chats").child(chatID);
 
         setChatDatabaseListener();
 
-        messages = new ArrayList<>();
 
-        Fragment chatFragment = ChatFragment.newInstance(messages);
-        getSupportFragmentManager().beginTransaction().add(R.id.chatFragHolder, chatFragment).commit();
-
-
-        //chatMessagesAdapter = new ChatMessagesAdapter(messages);
-        //TODO finish implementing adapter
     }
 
     public void setChatDatabaseListener(){
@@ -111,11 +115,16 @@ public class ChatActivity extends AppCompatActivity {
      * @param dataSnapshot
      */
     public void updateChatData(DataSnapshot dataSnapshot){
+        messages.clear();
+
         Message theNewMessage;
         for(DataSnapshot ds : dataSnapshot.getChildren()){
             theNewMessage = ds.getValue(Message.class);
+            messages.add(theNewMessage);
         }
-        messages.add(dataSnapshot.getValue(Message.class));
+        if(chatFragment != null){
+            chatFragment.notifyAdapterDataChanged();
+        }
     }
 
     /**
@@ -127,8 +136,23 @@ public class ChatActivity extends AppCompatActivity {
         messages.add(theNewMessage);
     }
 
+    @Override
+    public Message generateMessage(String message) {
+        Message theMessage;
+        theMessage = new Message(null, message, (new Date()).toString(), null, thisUser, chattingWith);
 
-    private class Message{
+        return theMessage;
+    }
+
+    @Override
+    public void addMessageToFirebase(Message message) {
+        if(chatReference != null){
+            chatReference.child(Long.toString(chatData.getChildrenCount())).setValue(message);
+        }
+    }
+
+
+    public class Message implements Serializable{
         private String ID, content, fromUsername, toUsername;
         private Date dateSent, dateReceived;
 

@@ -2,7 +2,9 @@ package edu.temple.listenup;
 //Gmo branch
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -143,11 +146,15 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
 
+
+
+
                         try {
                             writeNewUser(user);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        registerUserFCMToken(user);
 
                     }
                 });
@@ -209,6 +216,18 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         DatabaseHelper.setMyUserID(newUser, user.id);
         DatabaseHelper.setMyFollowedArtists(user.id, followedArtists);
 
+    }
+
+    private void registerUserFCMToken(UserPrivate user){
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+
+        if(refreshedToken != null) {
+            FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = myDatabase.getReference("fcmTokens").child(user.id);
+            databaseReference.setValue(refreshedToken);
+        }
     }
 
 }
