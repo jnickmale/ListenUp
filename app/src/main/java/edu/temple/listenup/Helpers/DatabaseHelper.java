@@ -10,6 +10,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,7 @@ public class DatabaseHelper {
 
     private static List<User> userList = new ArrayList<>();
     private static DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();
+    private static PreferencesUtils preferencesUtils = new PreferencesUtils();
 
     public static void setMyLongitude(String ID, double lon) {
         myDatabase.child("users").child(ID).child("lon").setValue(lon);
@@ -37,6 +41,12 @@ public class DatabaseHelper {
     public static void setMyUserID(User user, String ID) {
         myDatabase.child("users").child(ID).setValue(user);
     }
+
+    public static void setMyFollowedArtists(String ID, Map<String, String> followedArtists) throws JSONException {
+        JSONObject jsonObject = new JSONObject(followedArtists.toString());
+        myDatabase.child("users").child(ID).child("followed_artists").setValue(jsonObject);
+    }
+
 
     public interface DatabaseUsersReceivedListener {
         void onDataReceived(List<User> data);
@@ -61,51 +71,53 @@ public class DatabaseHelper {
                     lon = String.valueOf(singleUser.get("lon"));
                     lat = String.valueOf(singleUser.get("lat"));
                     id = String.valueOf(singleUser.get("id"));
+                    if (!(preferencesUtils.getMySpotifyUserID(context).equals(id))) {
 
-                    //save values into our User object
-                    newUser.setDisplayName(name);
-                    newUser.setLat(Double.valueOf(lat));
-                    newUser.setLon(Double.valueOf(lon));
-                    newUser.setID(id);
+                        //save values into our User object
+                        newUser.setDisplayName(name);
+                        newUser.setLat(Double.valueOf(lat));
+                        newUser.setLon(Double.valueOf(lon));
+                        newUser.setID(id);
 
-                    //set distance from user in the User object
-                    newUser.setDistanceFromUser();
-                    distance = newUser.getDistance();
-                    double radius;
+                        //set distance from user in the User object
+                        newUser.setDistanceFromUser();
+                        distance = newUser.getDistance();
+                        double radius;
 
-                    //checks if new user is within the radius specified by current user
-                    if(PreferencesUtils.getMyRadius(context) == null){
-                        radius = 1;
-                    }else{
-                        radius = Double.valueOf(PreferencesUtils.getMyRadius(context));
-                    }
-                    if (distance < radius) {
+                        //checks if new user is within the radius specified by current user
+                        if (PreferencesUtils.getMyRadius(context) == null) {
+                            radius = 1.0;
+                        } else {
+                            radius = Double.valueOf(PreferencesUtils.getMyRadius(context));
+                        }
+                        if (distance < radius) {
 
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                UserPublic user = SpotifyAPIManager.getService().getUser(id);
-                                String image;
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    UserPublic user = SpotifyAPIManager.getService().getUser(id);
+                                    String image;
 
-                                try {
-                                    image = user.images.get(0).url;
-                                    Log.i("DatabaseHelperImage", image);
-                                    newUser.setUserImage(image);
+                                    try {
+                                        image = user.images.get(0).url;
+                                        Log.i("DatabaseHelperImage", image);
+                                        newUser.setUserImage(image);
 
-                                } catch (IndexOutOfBoundsException e) {
-                                    System.out.println("this was the issue");
+                                    } catch (IndexOutOfBoundsException e) {
+                                        System.out.println("this was the issue");
+                                    }
+
+                                    Log.i("DatabaseCheckService", user.display_name);
+
                                 }
+                            });
 
-                                Log.i("DatabaseCheckService", user.display_name);
-
-                            }
-                        });
-
-                        list.add(newUser); //add result into array list
+                            list.add(newUser); //add result into array list
+                        }
                     }
-                }
 
-                listener.onDataReceived(list); //send list to any receivers (e.g. PartnerListFragment)
+                    listener.onDataReceived(list); //send list to any receivers (e.g. PartnerListFragment)
+                }
 
             }
 

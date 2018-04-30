@@ -29,7 +29,7 @@ public class PreferencesUtils {
     }
 
     public static void setMyRadius(int radius, Context context) {
-        getSharedPreferences(context).edit().putInt(RADIUS, radius).apply();
+        getSharedPreferences(context).edit().putString(RADIUS, String.valueOf(radius)).apply();
     }
 
     public static void setMyAccessToken(String accessToken, Context context) {

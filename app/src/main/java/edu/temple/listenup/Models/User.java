@@ -5,6 +5,9 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+import java.util.Map;
+
 import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.HomeScreenActivity;
 import edu.temple.listenup.MainActivity;
@@ -16,6 +19,7 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 
 public class User implements Parcelable {
 
+    private Map<String, String> followedArtists;
     private String id, displayName,sex,email, userImage;
 
     private int rating;
@@ -57,8 +61,6 @@ public class User implements Parcelable {
         this.distance = distance;
         this.userImage = userImage;
     }
-
-
 
     public User(String id, String displayName, String sex, String email) {
         this.id = id;
@@ -150,11 +152,17 @@ public class User implements Parcelable {
         return userImage;
     }
 
-
     public void setUserImage(String userImage) {
         this.userImage = userImage;
     }
 
+    public Map<String, String> getFollowedArtists() {
+        return followedArtists;
+    }
+
+    public void setFollowedArtists(Map<String, String> followedArtists) {
+        this.followedArtists = followedArtists;
+    }
 
     @Override
     public int describeContents() {

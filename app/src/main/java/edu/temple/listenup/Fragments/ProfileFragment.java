@@ -106,12 +106,19 @@ public class ProfileFragment extends Fragment {
                 final Toasty toasty = new Toasty(getActivity());
                 //display
                 toasty.show();
-
                 //initialize seekbar
                 final SeekBar seekBar = toasty.findViewById(R.id.seekBar);
+                final TextView radiusValue = toasty.findViewById(R.id.radius_value);
+                //if sharedprefs has been updated with the radius... put in
+                if(!(PreferencesUtils.getMyRadius(getActivity().getApplicationContext()) == null)){
+                    //seekBar.setProgress(Integer.parseInt(preferencesUtils.getMyRadius(getActivity().getApplicationContext())));
+                    Double temp = Double.parseDouble(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
+                    seekBar.setProgress( temp.intValue() );
+                    radiusValue.setText(String.valueOf(temp.intValue()));
+                }
+
                 //set max radius to 50
                 seekBar.setMax(50);
-                final TextView radiusValue = toasty.findViewById(R.id.radius_value);
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -145,7 +152,6 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
-
     }
 
     @Override

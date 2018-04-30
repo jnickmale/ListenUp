@@ -133,8 +133,8 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
 
             settingsCheck.edit().putBoolean("user_first_time", false).apply();
 
-         } else {
-            navigation.setSelectedItemId(R.id.navigation_dashboard);
+        } else {
+            navigation.setSelectedItemId(R.id.navigation_home);
         }
 
 
