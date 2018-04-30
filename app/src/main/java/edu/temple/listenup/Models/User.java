@@ -30,10 +30,7 @@ public class User implements Parcelable {
     public void setRating(int rating) {
         this.rating = rating;
     }
-
-
-
-    private int rating;
+    
 
     private double lon,lat, distance;
     public User() {

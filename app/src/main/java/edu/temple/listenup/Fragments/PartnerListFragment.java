@@ -78,7 +78,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     public void onDataReceived(List<User> data) {
         userList = data;
 
-        if(userList != null){
+        if(userList != null){/*
 
             for (User user : userList){
                 List<String> list = new ArrayList<String>();
@@ -93,6 +93,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
                 }
                 user.setRating(rating);
             }
+            */
         }
 
         if (adapter != null) {
