@@ -58,7 +58,7 @@ public class CollabFragment extends Fragment {
         database = FirebaseDatabase.getInstance().getReference().child("matches");
     }
 
-    public CollabFragment getInstance(String userID, String userName, String withUserID, String withUserName, String matchID){
+    public static CollabFragment getInstance(String userID, String userName, String withUserID, String withUserName, String matchID){
         CollabFragment collabFragment = new CollabFragment();
         Bundle args = new Bundle();
         args.putString("userID", userID);
@@ -83,7 +83,7 @@ public class CollabFragment extends Fragment {
         ref.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("playlistID")){
+                if(!dataSnapshot.hasChild("playlistID")){
                     SpotifyAPIManager.setMyAccessToken(PreferencesUtils.getMyAccessToken(getActivity().getApplicationContext()));
                     final SpotifyService spotifyService = SpotifyAPIManager.getService();
 

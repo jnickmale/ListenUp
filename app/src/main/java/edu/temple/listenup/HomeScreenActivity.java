@@ -15,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -24,9 +25,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +40,7 @@ import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
+import kaaes.spotify.webapi.android.models.UserPublic;
 
 public class HomeScreenActivity extends AppCompatActivity implements LocationListener {
 
@@ -235,5 +240,31 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             //myDatabase.child("users").child(myID).child("lon").setValue(longi);
 
         }
+    }
+
+    public void loadUserImageIntoView(String userID, View into){
+        final String ID = userID;
+        final View intoFinal = into;
+        AsyncTask async = new AsyncTask() {
+            private String imageURL;
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                UserPublic userPublic = SpotifyAPIManager.getService().getUser(ID);
+                try {
+                    imageURL = userPublic.images.get(0).url;
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("this was the issue");
+                }
+                return imageURL;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                Picasso.with(HomeScreenActivity.this).load(imageURL).into((ImageView)intoFinal);
+            }
+        };
+        async.execute();
     }
 }
