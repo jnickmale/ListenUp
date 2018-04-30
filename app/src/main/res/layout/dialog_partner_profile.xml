@@ -40,4 +40,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.221" />
 
+
+    <TextView
+        android:id="@+id/sharedArtists"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Shared Artists"
+        android:textSize="15sp"
+        android:fontFamily="@font/uni_sans_thin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/dialog_horizontal_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partner_profile_pic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.824">
+
+        <LinearLayout
+            android:id="@+id/dialog_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
 </android.support.constraint.ConstraintLayout>

@@ -31,7 +31,12 @@ public class DatabaseHelper {
     private static PreferencesUtils preferencesUtils = new PreferencesUtils();
     static List<String> artistListPartners = new ArrayList<>();
     static List<String> artistListUser = new ArrayList<>();
+    static List<User> pleaselist = new ArrayList<>();
 
+
+    public static DatabaseReference getDatabaseRef() {
+        return myDatabase;
+    }
     public static void setMyLongitude(String ID, double lon) {
         myDatabase.child("users").child(ID).child("lon").setValue(lon);
     }
@@ -54,7 +59,7 @@ public class DatabaseHelper {
     }
 
     public static List<String> getUserArtists(String userId,Context context){
-        
+        //artistListUser.clear();
         DatabaseReference reference = myDatabase.child("users").child(userId).child("followedArtists");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,17 +82,15 @@ public class DatabaseHelper {
     }
 
     public static List<String> getPartnerArtists(String partnerId,Context context){
-
+        //artistListPartners.clear();
         DatabaseReference reference = myDatabase.child("users").child(partnerId).child("followedArtists");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               for(DataSnapshot dsp : dataSnapshot.getChildren()){
-                   final String artist;
+               for (DataSnapshot dsp : dataSnapshot.getChildren()){
                    String name = (String) dsp.getValue();
                    artistListPartners.add(name);
                }
-
             }
 
             @Override
@@ -95,7 +98,6 @@ public class DatabaseHelper {
 
             }
         });
-
         return artistListPartners;
     }
 
@@ -175,6 +177,81 @@ public class DatabaseHelper {
         });
 
     }
+
+    public static List<User> getAllUsersWithinRadius(final Context context) {
+        DatabaseReference ref = myDatabase.child("users");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    final String name, lon, lat, id;
+                    final double distance;
+                    final User newUser = new User();
+
+                    //create Map object to take in dataSnapshot from Firebase
+                    Map singleUser = (Map) dsp.getValue();
+
+                    //get values from Firebase and save to our variables
+                    name = String.valueOf(singleUser.get("displayName"));
+                    lon = String.valueOf(singleUser.get("lon"));
+                    lat = String.valueOf(singleUser.get("lat"));
+                    id = String.valueOf(singleUser.get("id"));
+                    if (!(preferencesUtils.getMySpotifyUserID(context).equals(id))) {
+
+                        //save values into our User object
+                        newUser.setDisplayName(name);
+                        newUser.setLat(Double.valueOf(lat));
+                        newUser.setLon(Double.valueOf(lon));
+                        newUser.setID(id);
+
+                        //set distance from user in the User object
+                        newUser.setDistanceFromUser();
+                        distance = newUser.getDistance();
+                        double radius;
+
+                        //checks if new user is within the radius specified by current user
+                        if (PreferencesUtils.getMyRadius(context) == null) {
+                            radius = 1.0;
+                        } else {
+                            radius = Double.valueOf(PreferencesUtils.getMyRadius(context));
+                        }
+                        if (distance < radius) {
+
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    UserPublic user = SpotifyAPIManager.getService().getUser(id);
+                                    String image;
+
+                                    try {
+                                        image = user.images.get(0).url;
+                                        Log.i("DatabaseHelperImage", image);
+                                        newUser.setUserImage(image);
+
+                                    } catch (IndexOutOfBoundsException e) {
+                                        System.out.println("this was the issue");
+                                    }
+
+                                    Log.i("DatabaseCheckService", user.display_name);
+
+                                }
+                            });
+
+                            pleaselist.add(newUser); //add result into array list
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return pleaselist;
+    }
+
 
     //function to get all users from the database, probably won't need this
     public static void getAllUsers(final DatabaseUsersReceivedListener listener) {

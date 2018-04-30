@@ -51,12 +51,14 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_partner_list, container, false);
         userArtistList = DatabaseHelper.getUserArtists(preferencesUtils.getMySpotifyUserID(getActivity().getApplicationContext())
-                ,getActivity().getApplicationContext());
+                , getActivity().getApplicationContext());
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         //------- this is where we will insert the partner list data
+//        userList = getArguments().getParcelableArrayList("partners_list");
+
         DatabaseHelper.getAllUsersWithinRadius(this, getActivity());
 /*
         List<String> list = new ArrayList<>();
@@ -79,13 +81,13 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     public void onDataReceived(List<User> data) {
         userList = data;
         System.out.println(userList);
-        if(userList != null){
-            for (User user : userList){
+        if (userList != null) {
+            for (User user : userList) {
                 List<String> list = new ArrayList<String>();
-                list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity().getApplicationContext());
-                for(String artist : list){
-                    for(String userArtist : userArtistList){
-                        if (userArtist.equals(artist)){
+                list = DatabaseHelper.getPartnerArtists(user.getID(), getActivity().getApplicationContext());
+                for (String artist : list) {
+                    for (String userArtist : userArtistList) {
+                        if (userArtist.equals(artist)) {
                             System.out.println(artist);
                         }
                     }

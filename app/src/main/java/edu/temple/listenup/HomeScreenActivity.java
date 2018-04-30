@@ -126,7 +126,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         bundle.putString("display_name", username);
         bundle.putString("pic_url", profileInfo);
         bundle.putStringArrayList("artists_pics", artistPicsList);
-
+        bundle.putParcelableArrayList("partners_list", (ArrayList<? extends Parcelable>) getAllUsersWithinRadius());
         //set bottom navigation stuff
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -208,13 +208,13 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             }
 
 
-               Intent intent = new Intent(LOCATION_UPDATED);
+            Intent intent = new Intent(LOCATION_UPDATED);
 
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
-                Log.i("HomeScreenActivity", addresses.get(0).getLocality());
-                Log.i("HomeScreenActivity", addresses.get(0).getAdminArea());
-                Log.i("HomeScreenActivity", addresses.get(0).getCountryName());
+            Log.i("HomeScreenActivity", addresses.get(0).getLocality());
+            Log.i("HomeScreenActivity", addresses.get(0).getAdminArea());
+            Log.i("HomeScreenActivity", addresses.get(0).getCountryName());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -282,7 +282,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     }
 
     private void updateLocationInPreferences(Location location) {
-            PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
+        PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
     }
 
     private ArrayList<String> getListOfArtistImages(Map<String, String> followedArtists) {
@@ -302,4 +302,29 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         return followed;
     }
 
+
+    public List<User> getAllUsersWithinRadius() {
+        return DatabaseHelper.getAllUsersWithinRadius(this);
+    }
+    public static ArrayList<String> getListOfArtistImages(List<String> followedArtists) {
+        final ArrayList<String> followed = new ArrayList<>();
+
+        for (final String value : followedArtists) {
+            final String[] image = new String[1];
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    image[0] = SpotifyAPIManager.getArtistImage(value);
+                    Log.wtf("HomeScreenActivity", "this shit better work");
+                    followed.add(image[0]);
+                }
+            });
+        }
+        return followed;
+    }
+/*
+    public static List<String> getPartnerArtists(String ID) {
+    }
+
+*/
 }
