@@ -47,7 +47,6 @@ public class DatabaseHelper {
         myDatabase.child("users").child(ID).child("followed_artists").setValue(jsonObject);
     }
 
-
     public interface DatabaseUsersReceivedListener {
         void onDataReceived(List<User> data);
     }

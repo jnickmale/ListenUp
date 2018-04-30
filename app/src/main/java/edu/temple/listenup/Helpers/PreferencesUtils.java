@@ -2,6 +2,13 @@ package edu.temple.listenup.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class PreferencesUtils {
     private static final String PREFERENCES = "my_prefs";
@@ -14,12 +21,13 @@ public class PreferencesUtils {
     private static final String RADIUS = "radius";
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
+    private static final String FOLLOWED_ARTISTS = "followed_artists";
 
     private static SharedPreferences sharedPrefs;
 
     private static SharedPreferences getSharedPreferences(Context context) {
-         sharedPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-         return sharedPrefs;
+        sharedPrefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPrefs;
     }
 
     public static void setMyLongitudeLatitude(double longitude, double latitude, Context context) {
@@ -50,6 +58,11 @@ public class PreferencesUtils {
 
     public static void setMyCityInfo(String info, Context context) {
         getSharedPreferences(context).edit().putString(CITY_INFO, info).apply();
+    }
+
+    public static void setMyFollowedArtists(Map<String, String> info, Context context) {
+        Log.i("PreferencesUtils", "My followed artists: " + info.toString());
+        saveMap(info, context);
     }
 
     public static String getMyRadius(Context context) {
@@ -84,4 +97,34 @@ public class PreferencesUtils {
         return getSharedPreferences(context).getString(CITY_INFO, null);
     }
 
+    public static String getMyFollowedArtists(Context context) {
+        return getSharedPreferences(context).getString(FOLLOWED_ARTISTS, null);
+    }
+
+    public static Map<String, String> getMyFollowedArtistsAsMap(Context context) {
+        Map<String, String> outputMap = new HashMap<String, String>();
+        try {
+            String jsonString = getMyFollowedArtists(context);
+            JSONObject jsonObject = new JSONObject(jsonString);
+            Iterator<String> keysItr = jsonObject.keys();
+
+            while (keysItr.hasNext()) {
+                String key = keysItr.next();
+                Log.i("PleaseMapWork", key);
+                String value = (String) jsonObject.get(key);
+                outputMap.put(key, value);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return outputMap;
+    }
+
+    private static void saveMap(Map<String, String> inputMap, Context context) {
+        JSONObject jsonObject = new JSONObject(inputMap);
+        String jsonString = jsonObject.toString();
+        getSharedPreferences(context).edit().putString(FOLLOWED_ARTISTS, jsonString).apply();
+    }
 }

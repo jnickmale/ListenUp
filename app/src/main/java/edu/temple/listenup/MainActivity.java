@@ -191,6 +191,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
+        PreferencesUtils.setMyFollowedArtists(followedArtists, getApplicationContext());
 
         try {
             PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());

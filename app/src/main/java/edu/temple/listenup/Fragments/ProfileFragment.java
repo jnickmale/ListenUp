@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,6 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import edu.temple.listenup.Helpers.SpotifyAPIManager;
 import edu.temple.listenup.Objects.Toasty;
@@ -77,12 +86,18 @@ public class ProfileFragment extends Fragment {
         CircularImageView profilePic = view.findViewById(R.id.profilePicture);
         Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(300, 300).centerCrop().into(profilePic);
 
-
         // Gets string from Preferences and sets textview to user location
         locationInfo = PreferencesUtils.getMyCityInfo(getActivity());
 
         TextView city = view.findViewById(R.id.CityLocation);
         city.setText(locationInfo);
+
+        //Populate Current User's followed artists
+
+    //    LinearLayout layout = (LinearLayout) view.findViewById(R.id.linear);
+
+        Map<String, String> pleaseWork = PreferencesUtils.getMyFollowedArtistsAsMap(getActivity());
+
 
         //onclick floating action button to spawn custom toast
         FloatingActionButton fab = view.findViewById(R.id.profileFab);
@@ -97,10 +112,10 @@ public class ProfileFragment extends Fragment {
                 final SeekBar seekBar = toasty.findViewById(R.id.seekBar);
                 final TextView radiusValue = toasty.findViewById(R.id.radius_value);
                 //if sharedprefs has been updated with the radius... put in
-                if(!(PreferencesUtils.getMyRadius(getActivity().getApplicationContext()) == null)){
+                if (!(PreferencesUtils.getMyRadius(getActivity().getApplicationContext()) == null)) {
                     //seekBar.setProgress(Integer.parseInt(preferencesUtils.getMyRadius(getActivity().getApplicationContext())));
                     Double temp = Double.parseDouble(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
-                    seekBar.setProgress( temp.intValue() );
+                    seekBar.setProgress(temp.intValue());
                     radiusValue.setText(String.valueOf(temp.intValue()));
                 }
 
@@ -130,7 +145,7 @@ public class ProfileFragment extends Fragment {
                     public void onClick(View view) {
                         int radius = Integer.parseInt(radiusValue.getText().toString());
                         //send radius to sharedprefs
-                        preferencesUtils.setMyRadius(radius,getActivity().getApplicationContext());
+                        preferencesUtils.setMyRadius(radius, getActivity().getApplicationContext());
                         //destroy this custom toast
                         toasty.dismiss();
                     }
@@ -152,4 +167,18 @@ public class ProfileFragment extends Fragment {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
     }
+
+    private Map<String, String> toMap(JSONObject object) throws JSONException {
+        Map<String, String> map = new HashMap();
+        Iterator keys = object.keys();
+        Log.i("PleaseMapWork", "get to this line.");
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            Log.i("PleaseMapWork", key);
+            map.put(key, (String) object.get(key));
+        }
+        return map;
+    }
+
+
 }
