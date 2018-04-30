@@ -9,7 +9,10 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -26,6 +29,8 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 public class SpotifyAPIManager {
 
     private static final SpotifyApi api = new SpotifyApi();
+    private static final List<String> artistString = new ArrayList<>();
+    private static final Map<String, String> artistList = new HashMap<>();
 
     public static SpotifyService getService() {
         return api.getService();
@@ -35,9 +40,24 @@ public class SpotifyAPIManager {
         api.setAccessToken(token);
     }
 
-    public static void getMyFollowedArtists() {
+    public static Map<String, String> getMyFollowedArtists() {
+        //List<String> artistString = new ArrayList<>();
+        Map<String, String> artistList = new HashMap<>();
+
         List<Artist> artists = getService().getFollowedArtists().artists.items;
-        Artist justChecking = artists.get(0);
-        Log.wtf("JustChecking", justChecking.name);
+        String artist, id;
+
+        for (int i = 0 ; i < artists.size() ; i++){
+          //  artist = artists.get(i).id;
+          //  artistString.add(artist);
+            artistList.put(artists.get(i).name, artists.get(i).id);
+        }
+
+        if (artists != null) {
+            Artist justChecking = artists.get(0);
+            Log.wtf("JustChecking", justChecking.id);
+        }
+
+        return artistList;
     }
 }

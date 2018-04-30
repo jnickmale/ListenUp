@@ -10,6 +10,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,12 @@ public class DatabaseHelper {
     public static void setMyUserID(User user, String ID) {
         myDatabase.child("users").child(ID).setValue(user);
     }
+
+    public static void setMyFollowedArtists(String ID, Map<String, String> followedArtists) throws JSONException {
+        JSONObject jsonObject = new JSONObject(followedArtists.toString());
+        myDatabase.child("users").child(ID).child("followed_artists").setValue(jsonObject);
+    }
+
 
     public interface DatabaseUsersReceivedListener {
         void onDataReceived(List<User> data);

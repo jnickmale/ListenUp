@@ -21,6 +21,12 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
+
 import edu.temple.listenup.Helpers.DatabaseHelper;
 import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.Helpers.SpotifyAPIManager;
@@ -136,8 +142,13 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     @Override
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
-                        //SpotifyAPIManager.getMyFollowedArtists();
-                        writeNewUser(user);
+
+                        try {
+                            writeNewUser(user);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
 
@@ -166,7 +177,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onDestroy();
     }
 
-    private void writeNewUser(UserPrivate user) {
+    private void writeNewUser(UserPrivate user) throws JSONException {
+        Map<String, String> followedArtists = SpotifyAPIManager.getMyFollowedArtists();
+
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
@@ -185,14 +198,15 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
             System.out.println("this was the issue");
         }
 
-
         User newUser = new User();
 
         newUser.setID(user.id);
         newUser.setDisplayName(user.display_name);
         newUser.setEmail(user.email);
+        newUser.setFollowedArtists(followedArtists);
 
-        DatabaseHelper.setMyUserID(newUser, newUser.getID());
+        DatabaseHelper.setMyUserID(newUser, user.id);
+        DatabaseHelper.setMyFollowedArtists(user.id, followedArtists);
 
     }
 
