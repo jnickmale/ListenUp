@@ -139,7 +139,6 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
-
     }
 
     @Override
