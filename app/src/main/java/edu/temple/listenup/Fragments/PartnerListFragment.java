@@ -33,8 +33,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     private List<User> userList;
     private View view;
     PreferencesUtils preferencesUtils = new PreferencesUtils();
-    private List<String> userArtistList = DatabaseHelper.getUserArtists(preferencesUtils.getMySpotifyUserID(getActivity().getApplicationContext())
-    ,getActivity().getApplicationContext());
+    private List<String> userArtistList;
 
     public PartnerListFragment() {
         // Required empty public constructor
@@ -51,6 +50,8 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_partner_list, container, false);
+        userArtistList = DatabaseHelper.getUserArtists(preferencesUtils.getMySpotifyUserID(getActivity().getApplicationContext())
+                ,getActivity().getApplicationContext());
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -78,12 +79,12 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     public void onDataReceived(List<User> data) {
         userList = data;
 
-        if(userList != null){/*
-
+        if(userList != null){
             for (User user : userList){
                 List<String> list = new ArrayList<String>();
                 int rating = 0;
                 list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity());
+
                 for(String artist : list){
                     for(String userArtist : userArtistList){
                         if (userArtist.equals(artist)){
@@ -93,7 +94,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
                 }
                 user.setRating(rating);
             }
-            */
+
         }
 
         if (adapter != null) {
