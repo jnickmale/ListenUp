@@ -4,6 +4,7 @@ package edu.temple.listenup.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import edu.temple.listenup.Adapters.PartnerListAdapter;
 import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.Models.User;
 import edu.temple.listenup.R;
 
@@ -30,6 +32,9 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     private RecyclerView.Adapter adapter;
     private List<User> userList;
     private View view;
+    PreferencesUtils preferencesUtils = new PreferencesUtils();
+    private List<String> userArtistList = DatabaseHelper.getUserArtists(preferencesUtils.getMySpotifyUserID(getActivity().getApplicationContext())
+    ,getActivity().getApplicationContext());
 
     public PartnerListFragment() {
         // Required empty public constructor
@@ -74,13 +79,19 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
         userList = data;
 
         if(userList != null){
+
             for (User user : userList){
                 List<String> list = new ArrayList<String>();
-                int Rating = 0;
+                int rating = 0;
                 list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity());
                 for(String artist : list){
-                    
+                    for(String userArtist : userArtistList){
+                        if (userArtist.equals(artist)){
+                          rating++;
+                        }
+                    }
                 }
+                user.setRating(rating);
             }
         }
 

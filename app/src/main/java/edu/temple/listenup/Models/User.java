@@ -21,6 +21,17 @@ public class User implements Parcelable {
 
     private Map<String, String> followedArtists;
     private String id, displayName,sex,email, userImage;
+    private int rating = 0;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+
 
     private double lon,lat, distance;
     public User() {

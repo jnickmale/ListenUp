@@ -52,6 +52,30 @@ public class DatabaseHelper {
         void onDataReceived(List<User> data);
     }
 
+    public static List<String> getUserArtists(String userId,Context context){
+        final List<String> artistList = new ArrayList<>();
+
+        DatabaseReference reference = myDatabase.child("users").child(userId).child("followedArtists");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot dsp : dataSnapshot.getChildren()){
+                    final String artist;
+                    String name = (String) dsp.getValue();
+                    artistList.add(name);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return artistList;
+    }
+
     public static List<String> getPartnerArtists(String partnerId,Context context){
         final List<String> artistList = new ArrayList<>();
 
@@ -63,7 +87,6 @@ public class DatabaseHelper {
                    final String artist;
                    String name = (String) dsp.getValue();
                    artistList.add(name);
-                   Log.wtf("fuuuuuuck" , name);
                }
 
             }
