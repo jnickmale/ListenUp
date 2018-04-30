@@ -20,6 +20,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.temple.listenup.ChatActivity;
+import edu.temple.listenup.HomeScreenActivity;
+import edu.temple.listenup.Match;
 import edu.temple.listenup.Models.ImageModel;
 import edu.temple.listenup.R;
 

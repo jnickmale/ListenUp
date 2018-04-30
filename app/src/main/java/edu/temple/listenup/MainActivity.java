@@ -145,18 +145,17 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     @Override
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
-<<<<<<< HEAD
-                        writeNewUser(user);
-                        registerUserFCMToken(user);
-=======
+
+
+
 
                         try {
                             writeNewUser(user);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        registerUserFCMToken(user);
 
->>>>>>> master
                     }
                 });
 

@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import edu.temple.listenup.ChatActivity;
 import edu.temple.listenup.R;
 
 public class ChatMessagesAdapter extends RecyclerView.Adapter {

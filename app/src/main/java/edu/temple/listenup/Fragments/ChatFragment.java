@@ -15,12 +15,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
+
 import edu.temple.listenup.ChatActivity;
-import edu.temple.listenup.ChatMessagesAdapter;
-=======
 import edu.temple.listenup.Adapters.ChatMessagesAdapter;
->>>>>>> master
+
 import edu.temple.listenup.R;
 
 /**

@@ -19,9 +19,9 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.temple.listenup.PreferencesUtils;
+import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.R;
-import edu.temple.listenup.SpotifyAPIManager;
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.Track;
@@ -30,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static edu.temple.listenup.SpotifyAPIManager.getService;
+import static edu.temple.listenup.Helpers.SpotifyAPIManager.getService;
 
 /**
  * A simple {@link Fragment} subclass.

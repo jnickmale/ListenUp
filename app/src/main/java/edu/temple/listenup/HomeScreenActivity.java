@@ -25,17 +25,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-<<<<<<< HEAD
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
-=======
 import android.widget.ImageView;
 import android.widget.Toast;
->>>>>>> master
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,14 +44,11 @@ import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
-<<<<<<< HEAD
 import kaaes.spotify.webapi.android.models.UserPublic;
-=======
 import edu.temple.listenup.Helpers.DatabaseHelper;
 import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.Helpers.SpotifyAPIManager;
 import edu.temple.listenup.Models.User;
->>>>>>> master
 
 public class HomeScreenActivity extends AppCompatActivity implements LocationListener {
 
@@ -261,7 +255,6 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         }
     }
 
-<<<<<<< HEAD
     public void loadUserImageIntoView(String userID, View into){
         final String ID = userID;
         final View intoFinal = into;
@@ -287,7 +280,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         };
         async.execute();
     }
-=======
+
     private void updateLocationInPreferences(Location location) {
             PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
     }
@@ -309,5 +302,4 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         return followed;
     }
 
->>>>>>> master
 }
