@@ -75,7 +75,7 @@ public class DatabaseHelper {
 
                     //checks if new user is within the radius specified by current user
                     if(PreferencesUtils.getMyRadius(context) == null){
-                        radius = 1;
+                        radius = 1.0;
                     }else{
                         radius = Double.valueOf(PreferencesUtils.getMyRadius(context));
                     }
