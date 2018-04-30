@@ -11,6 +11,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import edu.temple.listenup.ChatActivity;
 import edu.temple.listenup.R;
@@ -33,8 +34,8 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter {
 
         void bind(ChatActivity.Message message) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(message.getDateSent());
-
+            //calendar.setTime(message.getDateSent());
+            calendar.setTimeZone(TimeZone.getTimeZone("EST"));
             messageTextContent.setText(message.getContent());
             messageTextTime.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
         }
@@ -50,7 +51,8 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter {
 
         void bind(ChatActivity.Message message) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(message.getDateSent());
+            //calendar.setTime(message.getDateSent());
+            calendar.setTimeZone(TimeZone.getTimeZone("EST"));
 
             messageTextContent.setText(message.getContent());
             messageTextTime.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
