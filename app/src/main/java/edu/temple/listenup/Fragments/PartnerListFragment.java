@@ -68,7 +68,6 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
         return view;
     }
 
-
     @Override
     public void onDataReceived(List<User> data) {
         userList = data;

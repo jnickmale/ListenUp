@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
-        builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basically mean what we need from the object....)
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-follow-read", "user-top-read", "playlist-read-collaborative"});//the scope this (basically mean what we need from the object....)
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);// this call the login activity in the spotfiy app
