@@ -33,6 +33,8 @@ public class User implements Parcelable {
 
 
 
+    private int rating;
+
     private double lon,lat, distance;
     public User() {
 

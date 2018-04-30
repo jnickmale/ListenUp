@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/CityLocation"
             app:layout_constraintVertical_bias="0.103" />
 
-
+<!--
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -103,7 +103,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintVertical_bias="0.824"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp" >
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
+-->
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/profileFab"

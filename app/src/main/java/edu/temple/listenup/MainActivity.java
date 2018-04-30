@@ -191,11 +191,12 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
 
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
+        PreferencesUtils.setMyFollowedArtists(followedArtists, getApplicationContext());
 
         try {
             PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
         }catch (IndexOutOfBoundsException e){
-            System.out.println("this was the issue");
+            System.out.println("this is null");
         }
 
         User newUser = new User();
