@@ -65,12 +65,24 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
             recyclerView.setAdapter(adapter);
         }
 
+
         return view;
     }
 
     @Override
     public void onDataReceived(List<User> data) {
         userList = data;
+
+        if(userList != null){
+            for (User user : userList){
+                List<String> list = new ArrayList<String>();
+                int Rating = 0;
+                list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity());
+                for(String artist : list){
+                    
+                }
+            }
+        }
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();
