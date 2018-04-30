@@ -53,7 +53,7 @@ public class DatabaseHelper {
 
     public static List<String> getUserArtists(String userId,Context context){
         final List<String> artistList = new ArrayList<>();
-
+        
         DatabaseReference reference = myDatabase.child("users").child(userId).child("followedArtists");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
