@@ -53,6 +53,16 @@ public class DatabaseHelper {
         void onDataReceived(List<User> data);
     }
 
+    public static void insertIntoMatches(Map<String, String> partner, Context context, String id){
+        try {
+            JSONObject jsonObject = new JSONObject(partner.toString());
+            myDatabase.child("matchWith").child(id).setValue(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static List<String> getUserArtists(String userId,Context context){
         
         DatabaseReference reference = myDatabase.child("users").child(userId).child("followedArtists");

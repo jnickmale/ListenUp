@@ -71,14 +71,13 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
             recyclerView.setAdapter(adapter);
         }
 
-
         return view;
     }
 
     @Override
     public void onDataReceived(List<User> data) {
         userList = data;
-        System.out.println(userList);
+        /*
         if(userList != null){
             for (User user : userList){
                 List<String> list = new ArrayList<String>();
@@ -92,7 +91,7 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
                 }
             }
 
-        }
+        }*/
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();

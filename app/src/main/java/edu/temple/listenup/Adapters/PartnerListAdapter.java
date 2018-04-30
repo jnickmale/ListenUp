@@ -5,14 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
 import edu.temple.listenup.Models.User;
 import edu.temple.listenup.Objects.PartnerProfile;
 import edu.temple.listenup.R;
@@ -62,6 +67,16 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
                 partnerProfile.show();
             }
         });
+
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //the add button is clicked add to db mathced w
+                Map<String, String> map = new HashMap<>();
+                map.put(user.getID(),user.getDisplayName());
+                DatabaseHelper.insertIntoMatches(map,context, PreferencesUtils.getMySpotifyUserID(context));
+            }
+        });
     }
 
     @Override
@@ -74,6 +89,7 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
         public ImageView profilePic;
         public TextView profileName;
         public TextView score;
+        public ImageButton button;
 
 
         public ViewHolder(View itemView) {
@@ -81,6 +97,7 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
             profilePic = itemView.findViewById(R.id.img);
             profileName = itemView.findViewById(R.id.partnerName);
             score = itemView.findViewById(R.id.partnerScore);
+            button = itemView.findViewById(R.id.add_button);
         }
     }
 
