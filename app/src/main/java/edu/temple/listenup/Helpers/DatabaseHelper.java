@@ -51,6 +51,31 @@ public class DatabaseHelper {
         void onDataReceived(List<User> data);
     }
 
+    public static List<String> getPartnerArtists(String partnerId,Context context){
+        final List<String> artistList = new ArrayList<>();
+
+        DatabaseReference reference = myDatabase.child("users").child(partnerId).child("followedArtists");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               for(DataSnapshot dsp : dataSnapshot.getChildren()){
+                   final String artist;
+                   String name = (String) dsp.getValue();
+                   artistList.add(name);
+                   Log.wtf("fuuuuuuck" , name);
+               }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return artistList;
+    }
+
     public static void getAllUsersWithinRadius(final DatabaseUsersReceivedListener listener, final Context context) {
         final List<User> list = new ArrayList<>();
         DatabaseReference ref = myDatabase.child("users");

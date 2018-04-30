@@ -50,7 +50,13 @@ public class SpotifyAPIManager {
         for (int i = 0 ; i < artists.size() ; i++){
           //  artist = artists.get(i).id;
           //  artistString.add(artist);
-            artistList.put(artists.get(i).name, artists.get(i).id);
+            if( !(artists.get(i).name.contains("/") || artists.get(i).name.contains(".") || artists.get(i).name.contains("#") || artists.get(i).name.contains("$")
+                    || artists.get(i).name.contains("[") || artists.get(i).name.contains("]")) ){
+                artistList.put(artists.get(i).name, artists.get(i).id);
+            }else{
+                artistList.put("whatevv", artists.get(i).id);
+            }
+
         }
 
         if (artists != null) {

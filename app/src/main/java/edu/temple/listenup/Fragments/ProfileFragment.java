@@ -84,7 +84,20 @@ public class ProfileFragment extends Fragment {
         //ImageView profilePic = view.findViewById(R.id.profilePicture);
 
         CircularImageView profilePic = view.findViewById(R.id.profilePicture);
-        Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(300, 300).centerCrop().into(profilePic);
+//        try {
+            String imagecheck =getArguments().getString("pic_url");
+
+            Log.wtf("isthereaImage", imagecheck);
+            //      }catch (NullPointerException e){
+    //        Picasso.with(getActivity()).load(R.drawable.kanyewest).resize(300, 300).centerCrop().into(profilePic);
+            if (imagecheck==null){
+
+                Picasso.with(getActivity()).load(R.drawable.kanyewest).resize(300, 300).centerCrop().into(profilePic);
+            }else {
+                //if user does not have image
+                Picasso.with(getActivity()).load(getArguments().getString("pic_url")).resize(300, 300).centerCrop().into(profilePic);
+            }
+//        }
 
         // Gets string from Preferences and sets textview to user location
         locationInfo = PreferencesUtils.getMyCityInfo(getActivity());
