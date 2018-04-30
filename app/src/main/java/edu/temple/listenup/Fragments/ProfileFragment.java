@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
                     //seekBar.setProgress(Integer.parseInt(preferencesUtils.getMyRadius(getActivity().getApplicationContext())));
                     Double temp = Double.parseDouble(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
                     seekBar.setProgress( temp.intValue() );
-                    radiusValue.setText(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
+                    radiusValue.setText(String.valueOf(temp.intValue()));
                 }
 
                 //set max radius to 50
