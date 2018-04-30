@@ -12,11 +12,5 @@ import edu.temple.listenup.Models.User;
     //output: list of partners WITH a compatibility score
 public class Matching {
 
-    List<User> list = new ArrayList<User>();
-
-    public List<User> getList() {
-        return list;
-    }
-
 
 }
