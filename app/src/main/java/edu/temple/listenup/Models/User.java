@@ -17,6 +17,7 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 public class User implements Parcelable {
 
     private String id, displayName,sex,email, userImage;
+    private int rating;
 
     private double lon,lat, distance;
     public User() {
