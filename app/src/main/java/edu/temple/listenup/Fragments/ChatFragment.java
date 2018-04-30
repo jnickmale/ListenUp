@@ -55,19 +55,7 @@ public class ChatFragment extends Fragment {
         this.username = getArguments().getString("username");
 
 
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.messagesView);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter
-        mAdapter = new ChatMessagesAdapter(myDataset, username);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -81,6 +69,20 @@ public class ChatFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.messagesView);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter
+        mAdapter = new ChatMessagesAdapter(myDataset, username);
+        mRecyclerView.setAdapter(mAdapter);
 
         final EditText messageContentView = (EditText) view.findViewById(R.id.messageSendingView);
 

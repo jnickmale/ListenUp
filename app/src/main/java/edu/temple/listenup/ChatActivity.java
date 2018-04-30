@@ -68,7 +68,8 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.Mess
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 //add the new message
-                addMessage(dataSnapshot);
+                Message theMessage = new Message((String)dataSnapshot.child("content").getValue(), (String)dataSnapshot.child("fromUsername").getValue(), (String)dataSnapshot.child("toUsername").getValue());
+                addMessage(theMessage);
             }
 
             @Override
@@ -136,6 +137,14 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.Mess
         messages.add(theNewMessage);
     }
 
+    /**
+     * add a single message to the data
+     * @param message
+     */
+    public void addMessage(Message message){
+        messages.add(message);
+    }
+
     @Override
     public Message generateMessage(String message) {
         Message theMessage;
@@ -152,15 +161,19 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.Mess
     }
 
 
-    public class Message implements Serializable{
-        private String ID, content, fromUsername, toUsername;
+    public static class Message implements Serializable{
+        private String ID, content, fromUsername, toUsername, dateSentString;
         private Date dateSent, dateReceived;
+
+        public Message(){
+
+        }
 
         public Message(String messageID, String content, String dateSentString, String dateReceivedString, String fromUser, String toUser){
             ID = messageID;
             this.content = content;
 
-
+            this.dateSentString = "00:00";
             dateSent = null;
             dateReceived = null;
             DateFormat dateFormat = new SimpleDateFormat();
@@ -173,6 +186,20 @@ public class ChatActivity extends AppCompatActivity implements ChatFragment.Mess
 
             fromUsername = fromUser;
             toUsername = toUser;
+        }
+
+        public Message(String content, String fromUsername, String toUsername) {
+            this.content = content;
+            this.fromUsername = fromUsername;
+            this.toUsername = toUsername;
+        }
+
+        public String getDateSentString() {
+            return dateSentString;
+        }
+
+        public void setDateSentString(String dateSentString) {
+            this.dateSentString = dateSentString;
         }
 
         public String getID() {
