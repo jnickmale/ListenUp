@@ -52,13 +52,13 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
 
         //------- this is where we will insert the partner list data
         DatabaseHelper.getAllUsersWithinRadius(this, getActivity());
-
+/*
         List<String> list = new ArrayList<>();
         list.add("one");
         list.add("two");
         list.add("three");
         ///---------
-
+*/
         //connect data to adapter
         if (userList != null) {
             adapter = new PartnerListAdapter(userList, view.getContext());
