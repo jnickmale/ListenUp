@@ -1,4 +1,4 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.temple.listenup.Models.User;
+import edu.temple.listenup.Objects.PartnerProfile;
+import edu.temple.listenup.R;
 
 /**
  * Created by guillermo on 4/24/18.
@@ -20,7 +26,8 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
     //-----insert partner data into list
     //by PartnerListFragment
     //aka List<person> list = new ArrayList<Person>
-    List<String> list = new ArrayList<String>();
+    List<User> list = new ArrayList<User>();
+    //List<String> list = new ArrayList<>();
     Context context;
 
     public PartnerListAdapter(List list, Context context) {
@@ -38,9 +45,23 @@ public class PartnerListAdapter extends RecyclerView.Adapter<PartnerListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //bind data to ViewHolder
-        String string = list.get(position);
-        holder.profileName.setText(string);
-        holder.score.setText(string);
+        final User user = list.get(position);
+        holder.profileName.setText(user.getDisplayName());
+        holder.score.setText(String.valueOf(user.getDistance()) + " m");
+
+        String image = user.getUserImage();
+
+        if (image != null) {
+            Picasso.with(context).load(image).resize(300, 300).into(holder.profilePic);
+        }
+
+        holder.profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PartnerProfile partnerProfile = new PartnerProfile(context, user);
+                partnerProfile.show();
+            }
+        });
     }
 
     @Override

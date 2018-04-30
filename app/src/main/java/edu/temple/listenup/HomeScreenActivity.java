@@ -1,6 +1,5 @@
 package edu.temple.listenup;
 
-import android.*;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -17,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -25,29 +25,43 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+<<<<<<< HEAD
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+=======
+import android.widget.ImageView;
+import android.widget.Toast;
+>>>>>>> master
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import edu.temple.listenup.Fragments.MatchesFragment;
 import edu.temple.listenup.Fragments.PartnerListFragment;
 import edu.temple.listenup.Fragments.ProfileFragment;
 import edu.temple.listenup.Fragments.UserSettingsFragment;
+<<<<<<< HEAD
 import kaaes.spotify.webapi.android.models.UserPublic;
+=======
+import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
+import edu.temple.listenup.Models.User;
+>>>>>>> master
 
 public class HomeScreenActivity extends AppCompatActivity implements LocationListener {
 
     private String LOCATION_UPDATED = "action_location_updated";
 
     private String username, profileInfo, myID;
-    List picInfo;
+    private ArrayList<String> artistPicsList;
 
     //the three fragments the user will navigate through
     private Fragment userSettingsFragment = new UserSettingsFragment();
@@ -60,7 +74,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     private Bundle bundle;
 
     private Location location;
-    private double lat, longi;
+    public static double lat, longi;
 
     //cycle through the fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -109,12 +123,15 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         profileInfo = PreferencesUtils.getMyPicInfo(getApplicationContext());
         myID = PreferencesUtils.getMySpotifyUserID(getApplicationContext());
 
+        artistPicsList = getListOfArtistImages(PreferencesUtils.getMyFollowedArtistsAsMap(getApplicationContext()));
+
         Log.i("HomeScreenActivity", "from shared prefs: " + profileInfo);
 
         //send user info to fragments
         bundle = new Bundle();
         bundle.putString("display_name", username);
         bundle.putString("pic_url", profileInfo);
+        bundle.putStringArrayList("artists_pics", artistPicsList);
 
         //set bottom navigation stuff
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -134,10 +151,11 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
                 profileFAB.setActivated(true);
             }
 
+
             settingsCheck.edit().putBoolean("user_first_time", false).apply();
 
         } else {
-            navigation.setSelectedItemId(R.id.navigation_dashboard);
+            navigation.setSelectedItemId(R.id.navigation_home);
         }
 
 
@@ -151,6 +169,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             return;
         }
 
+        Log.wtf("HomeScreenActivity", "Reaches this line.");
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 10, this);
@@ -176,6 +195,8 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
     @Override
     public void onLocationChanged(Location location) {
         updateLocationInDatabase(location);
+        updateLocationInPreferences(location);
+
         String city, state, country;
 
         try {
@@ -183,13 +204,8 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(lat, longi, 1);
 
-            String[] cityInfo = new String[3];
 
             if (addresses.size() > 0) {
-                //cityInfo[0] = addresses.get(0).getLocality(); //get city location
-                //cityInfo[1] = addresses.get(0).getAdminArea(); //get state location
-                //cityInfo[2] = addresses.get(0).getCountryName(); //get country name
-
                 city = addresses.get(0).getLocality(); //get city location
                 state = addresses.get(0).getAdminArea(); //get state location
                 country = addresses.get(0).getCountryName(); //get country name
@@ -234,14 +250,18 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
 
             Log.i("HomeScreenActivity", "longitude: " + longi + " latitude: " + lat);
 
-            DatabaseHelper.setMyLatitude(myID, lat);
-            DatabaseHelper.setMyLongitude(myID, longi);
-            //myDatabase.child("users").child(myID).child("lat").setValue(lat);
-            //myDatabase.child("users").child(myID).child("lon").setValue(longi);
+            if (lat != 0 && longi != 0) {
+                DatabaseHelper.setMyLatitude(myID, lat);
+                DatabaseHelper.setMyLongitude(myID, longi);
+            } else {
+                Toast.makeText(this, "Not working", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
     }
 
+<<<<<<< HEAD
     public void loadUserImageIntoView(String userID, View into){
         final String ID = userID;
         final View intoFinal = into;
@@ -267,4 +287,27 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
         };
         async.execute();
     }
+=======
+    private void updateLocationInPreferences(Location location) {
+            PreferencesUtils.setMyLongitudeLatitude(location.getLongitude(), location.getLatitude(), getApplicationContext());
+    }
+
+    private ArrayList<String> getListOfArtistImages(Map<String, String> followedArtists) {
+        final ArrayList<String> followed = new ArrayList<>();
+
+        for (final String value : followedArtists.values()) {
+            final String[] image = new String[1];
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    image[0] = SpotifyAPIManager.getArtistImage(value);
+                    followed.add(image[0]);
+                }
+            });
+        }
+
+        return followed;
+    }
+
+>>>>>>> master
 }

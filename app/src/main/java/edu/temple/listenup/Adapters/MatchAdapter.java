@@ -1,4 +1,4 @@
-package edu.temple.listenup;
+package edu.temple.listenup.Adapters;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +19,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import edu.temple.listenup.Models.ImageModel;
+import edu.temple.listenup.R;
 
 import edu.temple.listenup.Fragments.CollabFragment;
 import kaaes.spotify.webapi.android.models.UserPublic;

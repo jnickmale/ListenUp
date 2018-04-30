@@ -24,6 +24,16 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
+
+import edu.temple.listenup.Helpers.DatabaseHelper;
+import edu.temple.listenup.Helpers.PreferencesUtils;
+import edu.temple.listenup.Helpers.SpotifyAPIManager;
+import edu.temple.listenup.Models.User;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
 
@@ -59,7 +69,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         myDatabase = FirebaseDatabase.getInstance().getReference();
 
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);//signin object
-        builder.setScopes(new String[]{"user-read-private", "streaming"});//the scope this (basically mean what we need from the object....)
+        builder.setScopes(new String[]{"user-read-private", "streaming", "user-follow-read", "user-top-read", "playlist-read-collaborative"});//the scope this (basically mean what we need from the object....)
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);// this call the login activity in the spotfiy app
@@ -72,7 +82,7 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         startActivity(intent);
         finish();
         Log.d("MainActivity", "User logged In");
-        mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
+        //mPlayer.playUri(null, "spotify:track:4jtyUzZm9WLc2AdaJ1dso7", 0, 0);// format for  track  ...(for testing)spotify:track:4jtyUzZm9WLc2AdaJ1dso
 
     }
 
@@ -116,6 +126,8 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
             //get the data from then intent
             response = AuthenticationClient.getResponse(resultCode, data);
 
+            Log.wtf("Response Code", response.getError());
+
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 //get authentication token and set to myAccessToken variable
                 myAccessToken = response.getAccessToken();
@@ -133,8 +145,18 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
                     @Override
                     public void run() {
                         UserPrivate user = SpotifyAPIManager.getService().getMe();
+<<<<<<< HEAD
                         writeNewUser(user);
                         registerUserFCMToken(user);
+=======
+
+                        try {
+                            writeNewUser(user);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+>>>>>>> master
                     }
                 });
 
@@ -163,7 +185,9 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         super.onDestroy();
     }
 
-    private void writeNewUser(UserPrivate user) {
+    private void writeNewUser(UserPrivate user) throws JSONException {
+        Map<String, String> followedArtists = SpotifyAPIManager.getMyFollowedArtists();
+
         Log.i("MainActivity", "User added: " + user.display_name);
         Log.i("MainActivity", "User info: " + user.id);
         Log.i("MainActivity", "User info: " + user.email);
@@ -172,23 +196,27 @@ public class MainActivity extends Activity implements SpotifyPlayer.Notification
         }catch (IndexOutOfBoundsException e){
             System.out.println("this was the issue");
         }
+
         PreferencesUtils.setMyDisplayName(user.display_name, getApplicationContext());
         PreferencesUtils.setMySpotifyUserID(user.id, getApplicationContext());
+        PreferencesUtils.setMyFollowedArtists(followedArtists, getApplicationContext());
 
         try {
             PreferencesUtils.setMyPicInfo(user.images.get(0).url + "", getApplicationContext());
         }catch (IndexOutOfBoundsException e){
-            System.out.println("this was the issue");
+            System.out.println("this is null");
         }
-
 
         User newUser = new User();
 
         newUser.setID(user.id);
         newUser.setDisplayName(user.display_name);
         newUser.setEmail(user.email);
+        newUser.setFollowedArtists(followedArtists);
 
-        DatabaseHelper.setMyUserID(newUser, newUser.getID());
+        DatabaseHelper.setMyUserID(newUser, user.id);
+        DatabaseHelper.setMyFollowedArtists(user.id, followedArtists);
+
     }
 
     private void registerUserFCMToken(UserPrivate user){

@@ -1,9 +1,7 @@
 package edu.temple.listenup;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.temple.listenup.Adapters.ChatMessagesAdapter;
 import edu.temple.listenup.Fragments.ChatFragment;
 
 public class ChatActivity extends AppCompatActivity implements ChatFragment.MessageCreator{
