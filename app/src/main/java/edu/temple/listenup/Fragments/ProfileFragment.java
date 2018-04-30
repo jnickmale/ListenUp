@@ -98,7 +98,9 @@ public class ProfileFragment extends Fragment {
                 final TextView radiusValue = toasty.findViewById(R.id.radius_value);
                 //if sharedprefs has been updated with the radius... put in
                 if(!(PreferencesUtils.getMyRadius(getActivity().getApplicationContext()) == null)){
-                    seekBar.setProgress(Integer.parseInt(preferencesUtils.getMyRadius(getActivity().getApplicationContext())));
+                    //seekBar.setProgress(Integer.parseInt(preferencesUtils.getMyRadius(getActivity().getApplicationContext())));
+                    Double temp = Double.parseDouble(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
+                    seekBar.setProgress( temp.intValue() );
                     radiusValue.setText(preferencesUtils.getMyRadius(getActivity().getApplicationContext()));
                 }
 
