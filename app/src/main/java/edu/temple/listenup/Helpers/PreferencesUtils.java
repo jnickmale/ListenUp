@@ -84,4 +84,6 @@ public class PreferencesUtils {
         return getSharedPreferences(context).getString(CITY_INFO, null);
     }
 
+
+
 }
