@@ -131,6 +131,7 @@ public class HomeScreenActivity extends AppCompatActivity implements LocationLis
                 profileFAB.setActivated(true);
             }
 
+
             settingsCheck.edit().putBoolean("user_first_time", false).apply();
 
         } else {
