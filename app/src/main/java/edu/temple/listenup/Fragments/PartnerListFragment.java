@@ -78,21 +78,18 @@ public class PartnerListFragment extends Fragment implements DatabaseHelper.Data
     @Override
     public void onDataReceived(List<User> data) {
         userList = data;
-
+        System.out.println(userList);
         if(userList != null){
             for (User user : userList){
                 List<String> list = new ArrayList<String>();
-                int rating = 0;
-                list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity());
-
+                list = DatabaseHelper.getPartnerArtists(user.getID(),getActivity().getApplicationContext());
                 for(String artist : list){
                     for(String userArtist : userArtistList){
                         if (userArtist.equals(artist)){
-                          rating++;
+                            System.out.println(artist);
                         }
                     }
                 }
-                user.setRating(rating);
             }
 
         }

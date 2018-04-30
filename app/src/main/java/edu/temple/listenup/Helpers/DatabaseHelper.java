@@ -29,6 +29,8 @@ public class DatabaseHelper {
     private static List<User> userList = new ArrayList<>();
     private static DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();
     private static PreferencesUtils preferencesUtils = new PreferencesUtils();
+    static List<String> artistListPartners = new ArrayList<>();
+    static List<String> artistListUser = new ArrayList<>();
 
     public static void setMyLongitude(String ID, double lon) {
         myDatabase.child("users").child(ID).child("lon").setValue(lon);
@@ -52,7 +54,6 @@ public class DatabaseHelper {
     }
 
     public static List<String> getUserArtists(String userId,Context context){
-        final List<String> artistList = new ArrayList<>();
         
         DatabaseReference reference = myDatabase.child("users").child(userId).child("followedArtists");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -61,7 +62,7 @@ public class DatabaseHelper {
                 for(DataSnapshot dsp : dataSnapshot.getChildren()){
                     final String artist;
                     String name = (String) dsp.getValue();
-                    artistList.add(name);
+                    artistListUser.add(name);
                 }
 
             }
@@ -72,11 +73,10 @@ public class DatabaseHelper {
             }
         });
 
-        return artistList;
+        return artistListUser;
     }
 
     public static List<String> getPartnerArtists(String partnerId,Context context){
-        final List<String> artistList = new ArrayList<>();
 
         DatabaseReference reference = myDatabase.child("users").child(partnerId).child("followedArtists");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -85,7 +85,7 @@ public class DatabaseHelper {
                for(DataSnapshot dsp : dataSnapshot.getChildren()){
                    final String artist;
                    String name = (String) dsp.getValue();
-                   artistList.add(name);
+                   artistListPartners.add(name);
                }
 
             }
@@ -96,7 +96,7 @@ public class DatabaseHelper {
             }
         });
 
-        return artistList;
+        return artistListPartners;
     }
 
     public static void getAllUsersWithinRadius(final DatabaseUsersReceivedListener listener, final Context context) {
